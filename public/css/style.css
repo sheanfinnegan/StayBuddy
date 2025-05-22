@@ -1,0 +1,7 @@
+.ipt-date::-webkit-input-placeholder {
+    color: gray;
+}
+
+input[type="radio"]:checked {
+    accent-color: #570807;
+}
