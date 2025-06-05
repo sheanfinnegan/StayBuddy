@@ -10,6 +10,8 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
     --font-pop: 'Poppins';
     --font-popB: 'popBold';
+    --font-popReg: 'popReg';
+    --font-nunitoBold: 'NunitoBold';
     
     --color-putih: #F4F3E6;
     --color-kuning: #F8A91F;
@@ -29,3 +31,12 @@
     src: url('/public/font/Poppins-ExtraBold.ttf');
 }
 
+@font-face {
+    font-family: 'popReg';
+    src: url('/public/font/Poppins-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'NunitoBold';
+    src: url('/public/font/Nunito-Bold.ttf');
+}
