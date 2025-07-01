@@ -1,11 +1,22 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\MapController;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+// Route::get('/rmdetailpopup', function () {
+//     return view('popup.rmdetailpopup');
+// });
+
+Route::get('/rmdetailpopup', [UserController::class, 'index']);
+
+Route::get('/payment', function () {
+    return view('payment');
 });
 
 Route::get('/register', function () {
@@ -27,3 +38,4 @@ Route::get('/profileGajadi', function () {
 Route::get('/searchPage', [SearchController::class, 'index'])->name('searchPage');
 Route::get('/ajax/search-location', [MapController::class, 'ajaxSearch']);
 Route::get('/ajax/search-nearby', [MapController::class, 'searchNearby']);
+
