@@ -13,3 +13,11 @@ Route::get('/register', function () {
 Route::get('/login', function () {
     return view('login');
 })->name('login');
+
+Route::get('/profile', function () {
+    return view('profile');
+})->name('profile');
+
+Route::get('/profileGajadi', function () {
+    return view('profileGajadi');
+})->name('profileGajadi');

@@ -29,3 +29,6 @@
     src: url('/public/font/Poppins-ExtraBold.ttf');
 }
 
+.indicator{
+    transition: left .4s;
+}
