@@ -19,3 +19,8 @@ Route::get('/login', function () {
 Route::get('/searchPage', [SearchController::class, 'index'])->name('searchPage');
 Route::get('/ajax/search-location', [MapController::class, 'ajaxSearch']);
 Route::get('/ajax/search-nearby', [MapController::class, 'searchNearby']);
+
+use App\Http\Controllers\QuestionController;
+
+Route::get('/questionnaire/{id}', [QuestionController::class, 'show'])->name('questionnaire.show');
+Route::post('/questionnaire/next', [QuestionController::class, 'next'])->name('questionnaire.next');
