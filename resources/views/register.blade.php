@@ -92,7 +92,8 @@ background: linear-gradient(170deg,rgba(255, 95, 31, 1) 30%, rgba(245, 234, 202,
                     </button>
 
                     <p class="text-sm mt-4 text-[#570807]">
-                        Already have account? <a href="{{route('login')}}" class="text-oranye underline font-semibold">Sign in</a>
+                        Already have account? <a href="{{ route('login') }}"
+                            class="text-oranye underline font-semibold">Sign in</a>
                     </p>
                 </form>
             </div>

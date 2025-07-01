@@ -31,6 +31,9 @@
     src: url('/public/font/Poppins-ExtraBold.ttf');
 }
 
+.indicator{
+    transition: left .4s;
+
 @font-face {
     font-family: 'popReg';
     src: url('/public/font/Poppins-Regular.ttf');
@@ -39,4 +42,5 @@
 @font-face {
     font-family: 'NunitoBold';
     src: url('/public/font/Nunito-Bold.ttf');
+
 }
