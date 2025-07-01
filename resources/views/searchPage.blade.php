@@ -4,23 +4,23 @@
     <div class="z-[0]" id="map"></div>
     <div class="fullnav w-fit pr-7 flex justify-between absolute top-0 left-0 z-10">
         <div
-            class="nav w-fit pl-5 pt-7 pb-7 flex flex-col gap-4 items-center bg-putih shadow-[2px_3px_5px_rgba(0,0,0,0.25)] h-fit ">
+            class="nav w-fit pl-5 pt-8 pb-7 flex flex-col gap-4 items-center bg-putih shadow-[2px_3px_5px_rgba(0,0,0,0.25)] h-fit ">
             <div class="flex flex-row gap-2 items-center">
                 <div class="img-container w-[30%]">
-                    <img class="w-[160px]" src="{{ asset('assets/LogoStayBuddy.png') }}" alt="logo">
+                    <img class="w-[280px]" src="{{ asset('assets/LogoStayBuddy.png') }}" alt="logo">
                 </div>
-                <div class="flex flex-col gap-[5px] w-[55%]">
+                <div class="flex flex-col gap-[7px] w-[62%]">
                     <div class="search relative">
                         <input type="text"
-                            class="text-[10px] bg-white border-2 border-maroon px-3 py-[2.5px] rounded-2xl w-full pr-6"
+                            class="text-[14px] bg-white border-2 border-maroon px-3 py-[4.5px] rounded-2xl w-full pr-6"
                             name="search" id="search" placeholder="Cari Lokasi...">
                         <img src="{{ asset('assets/search.png') }}" alt=""
-                            class="searchIcon w-[10px] absolute right-3 top-2.5">
+                            class="searchIcon w-[17px] absolute right-4 top-2">
                     </div>
 
                     <div class="flex flex-row gap-2 items-center w-full">
                         <select name="price" id="price"
-                            class="text-[10px] w-[50%] bg-white border-2 border-maroon pl-1 pr-3 py-[1px] rounded-2xl">
+                            class="text-[13px] w-[50%] bg-white border-2 border-maroon pl-1 pr-3 py-[3.5px] rounded-2xl">
                             <option value="" disabled selected hidden>Harga</option>
                             <option value="u1">
                                 < 1 Juta</option>
@@ -29,7 +29,7 @@
                             <option value="m3">> 3 Juta</option>
                         </select>
                         <select name="jenisSewa" id="jenisSewa"
-                            class="text-[10px] w-[50%] bg-white border-2 border-maroon pl-1 pr-3 py-[1px] rounded-2xl">
+                            class="text-[13px] w-[50%] bg-white border-2 border-maroon pl-1 pr-3 py-[3px] rounded-2xl">
                             <option value="" disabled selected hidden>Durasi</option>
                             <option value="bulanan">Bulanan</option>
                             <option value="tahunan">Tahunan</option>
@@ -40,22 +40,24 @@
             </div>
             <div class="w-full text-center hidden dropArrow">
                 <button>
-                    <img class="dropDown w-[27px]" src="{{ asset('assets/Dropdown.png') }}" alt="">
+                    <img class="dropDown w-[40px]" src="{{ asset('assets/Dropdown.png') }}" alt="">
                 </button>
             </div>
         </div>
 
     </div>
-    <div class="absolute top-0 right-0 z-10 flex items-center pr-5">
-        <img src="{{ asset('assets/Profile.png') }}" alt=""
-            class="w-[75px] pt-3 hover:scale-[1.1] animation-all duration-100">
+    <div class="absolute top-0 right-0 z-10 flex items-center pr-6">
+        <a href="{{ route('login') }}">
+            <img src="{{ asset('assets/Profile.png') }}" alt=""
+                class="w-[110px] pt-3 hover:scale-[1.1] animation-all duration-100">
+        </a>
     </div>
     {{-- <div class="bg-[url('/public/assets/maps.png')] w-full h-[100vh]  bg-cover bg-center"></div> --}}
 
-    <div class="homeResult opacity-0 absolute top-[115px] left-7 z-50">
-        <h1 class="text-maroon font-popReg text-[18px] pl-1">Result</h1>
+    <div class="homeResult opacity-0 absolute top-[150px] left-7 z-50">
+        <h1 class="text-maroon font-popReg text-[25px] pl-1">Result</h1>
         <div
-            class="homeList max-w-[300px] flex flex-col gap-2 mt-[7px] h-[350px] overflow-auto pl-1 pt-[2px] custom-scroll">
+            class="homeList max-w-[450px] flex flex-col gap-3 mt-[7px] h-[570px] overflow-auto pl-1 pt-[2px] custom-scroll">
             {{-- <div id="1"
                 class="homeCardContainer flex flex-col gap-5 bg-white border-2 border-maroon rounded-xl px-4 py-3 shadow-[2px_3px_5px_rgba(0,0,0,0.25)]  max-w-[285px] hover:scale-[1.01] duration-100 hover:cursor-pointer">
                 <div class="homeCard flex flex-col gap-2 items-center">
@@ -207,24 +209,24 @@
                     resultsContainer.innerHTML = results.map(item => {
                         const categoryName = item.categories?.[0]?.name || 'Kategori tidak diketahui';
                         return `
-        <div id="${item.fsq_id}"
-            class="homeCardContainer flex flex-col gap-5 bg-white border-2 border-maroon rounded-xl px-4 py-3 shadow-[2px_3px_5px_rgba(0,0,0,0.25)] max-w-[285px] hover:scale-[1.01] duration-100 hover:cursor-pointer">
+        <div data-fsq-id="${item.details.fsq_id}"
+            class="homeCardContainer flex flex-col gap-5 bg-white border-2 border-maroon rounded-xl px-4 py-5 shadow-[2px_3px_5px_rgba(0,0,0,0.25)] hover:scale-[1.01] duration-100 hover:cursor-pointer">
             <div class="homeCard flex flex-col gap-2 items-center">
                 <div class="homeInfo1 flex gap-[7px] items-center">
                     <div class="homeTitle w-[65%]">
-                        <h1 class="text-[15px] font-popReg text-maroon mb-[1px]">${item.name}</h1>
-                        <div class="flex flex-row gap-1 items-center font-popReg text-[10px] text-[rgba(0,0,0,0.35)]">
+                        <h1 class="text-[22px] font-popReg text-maroon mb-[1px] leading-[1.3]">${item.name}</h1>
+                        <div class="flex flex-row gap-1 items-center font-popReg text-[14px] text-[rgba(0,0,0,0.35)] mt-1">
                             <p class="rating">4.3</p>
                             <x-star-rating :rating="4.3" />
                             <p class="review">(500)</p>
                         </div>
-                        <p class="text-[10px] font-nunitoBold text-[rgba(0,0,0,0.35)]">${item.location.formatted_address}</p>
+                        <p class="text-[12px] font-nunitoBold text-[rgba(0,0,0,0.35)]">${item.location.formatted_address}</p>
                     </div>
-                    <div class="homeImage w-[35%]">
+                    <div class="homeImage w-[38%]">
                         <img class="w-full" src="{{ asset('assets/homeTest.png') }}" alt="">
                     </div>
                 </div>
-                <div class="homeInfo2 w-full font-nunitoBold text-[9px] text-[rgba(0,0,0,0.35)] flex gap-4 items-center justify-start">
+                <div class="homeInfo2 w-full font-nunitoBold text-[12px] text-[rgba(0,0,0,0.35)] flex gap-4 items-center justify-start">
                     <div class="homePrice">${categoryName}</div>
                     <div class="homeStatus flex gap-1 items-center">
                         <div class="w-[7px] h-[7px] rounded-full bg-[rgba(0,0,0,0.35)]"></div>
@@ -301,39 +303,36 @@
 
                         const imageHtml = photos.length >
                             0 ?
-                            `<img class="w-full h-[65px] object-cover" src="${photos[0].url}" alt="${item.name}">` :
+                            `<img class="w-full h-[114px] object-fill" src="${photos[0].url}" alt="${item.name}">` :
                             `<img class="w-full h-fit" src="/assets/homeTest.png" alt="Default image">`;
 
                         return `
-            <div data-fsq-id="${item.details.fsq_id}"
-                class="homeCardContainer flex flex-col gap-5 bg-white border-2 border-maroon rounded-xl px-4 py-3 shadow-[2px_3px_5px_rgba(0,0,0,0.25)] max-w-[285px] hover:scale-[1.01] duration-100 hover:cursor-pointer">
-                <div class="homeCard flex flex-col gap-2 items-center">
-                    <div class="homeInfo1 flex gap-[7px] items-center">
-                        <div class="homeTitle w-[65%]">
-                            <h1 class="text-[15px] font-popReg text-maroon mb-[1px]">${item.name}</h1>
-                            <div class="flex flex-row gap-1 items-center font-popReg text-[10px] text-[rgba(0,0,0,0.35)]">
-                                <p class="rating">4.3</p>
-                                <x-star-rating :rating="4.3" />
-                                <p class="review">(500)</p>
-                            </div>
-                            <p class="text-[10px] font-nunitoBold text-[rgba(0,0,0,0.35)]">
-                                ${item.location?.formatted_address ?? 'Alamat tidak tersedia'}
-                            </p>
+        <div data-fsq-id="${item.details.fsq_id}"
+            class="homeCardContainer flex flex-col gap-5 bg-white border-2 border-maroon rounded-xl px-4 py-5 shadow-[2px_3px_5px_rgba(0,0,0,0.25)] hover:scale-[1.01] duration-100 hover:cursor-pointer">
+            <div class="homeCard flex flex-col gap-2 items-center">
+                <div class="homeInfo1 flex gap-[7px] items-center">
+                    <div class="homeTitle w-[65%]">
+                        <h1 class="text-[22px] font-popReg text-maroon mb-[1px] leading-[1.3]">${item.name}</h1>
+                        <div class="flex flex-row gap-1 items-center font-popReg text-[14px] text-[rgba(0,0,0,0.35)] mt-1">
+                            <p class="rating">4.3</p>
+                            <x-star-rating :rating="4.3" />
+                            <p class="review">(500)</p>
                         </div>
-                        <div class="homeImage w-[35%]">
-                            ${imageHtml}
-                        </div>
+                        <p class="text-[12px] font-nunitoBold text-[rgba(0,0,0,0.35)]">${item.location.formatted_address}</p>
                     </div>
-                    <div class="homeInfo2 w-full font-nunitoBold text-[9px] text-[rgba(0,0,0,0.35)] flex gap-4 items-center justify-start">
-                        <div class="homePrice">${categoryName}</div>
-                        <div class="homeStatus flex gap-1 items-center">
-                            <div class="w-[7px] h-[7px] rounded-full bg-[rgba(0,0,0,0.35)]"></div>
-                            <p>Available (4 Waiting List)</p>
-                        </div>
+                    <div class="homeImage w-[38%]">
+                        ${imageHtml}
+                    </div>
+                </div>
+                <div class="homeInfo2 w-full font-nunitoBold text-[12px] text-[rgba(0,0,0,0.35)] flex gap-4 items-center justify-start">
+                    <div class="homePrice">${categoryName}</div>
+                    <div class="homeStatus flex gap-1 items-center">
+                        <div class="w-[7px] h-[7px] rounded-full bg-[rgba(0,0,0,0.35)]"></div>
+                        <p>Available (4 Waiting List)</p>
                     </div>
                 </div>
             </div>
-            `;
+        </div>`;
                     }).join('');
 
 
@@ -365,6 +364,7 @@
                     }
 
                     let listHome = document.querySelectorAll(".homeCardContainer")
+                    console.log(listHome)
                     if (dropArrow.classList.contains('hidden')) {
                         dropArrow.classList.remove('hidden');
                         nav.classList.remove('pb-7');
@@ -374,7 +374,9 @@
                     listHome.forEach(home => {
                         home.addEventListener("click", () => {
                             let id = home.getAttribute("data-fsq-id");
+                            // console.log(id)
                             let item = results.find(i => i.details.fsq_id === id);
+                            // console.log(item);
                             renderHomeDetail(item);
 
 
@@ -404,6 +406,7 @@
             let homeDetail = document.querySelector('.homeDetail');
             homeDetail.classList.remove('hidden');
             homeDetail.classList.add('flex');
+            console.log("tes");
             let photos = home.photos?.slice(0, 5) || [];
             homeDetail.innerHTML = `
             <div
@@ -417,9 +420,9 @@
                     <!-- Thumbnail Images -->
                     <div class="flex justify-start mt-1 gap-1">
                         ${photos.map((photo, index) => `
-                                            <img class="thumb w-[42px] h-10 object-cover cursor-pointer ${index === 0 ? 'opacity-100 border-1 border-yellow-400' : 'opacity-50'}"
-                                                src="${photo.url || asset('assets/hs-' + (index + 1) + '.png')}" alt="">
-                                        `).join('')}
+                                                                                                                                                                                                                                                                                                                                                                                                                            <img class="thumb w-[42px] h-10 object-cover cursor-pointer ${index === 0 ? 'opacity-100 border-1 border-yellow-400' : 'opacity-50'}"
+                                                                                                                                                                                                                                                                                                                                                                                                                                src="${photo.url || asset('assets/hs-' + (index + 1) + '.png')}" alt="">
+                                                                                                                                                                                                                                                                                                                                                                                                                        `).join('')}
                        
                     </div>
                 </div>
