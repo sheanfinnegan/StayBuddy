@@ -12,7 +12,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        font-size: 9px;
+        font-size: 12px;
     }
 
     .fa-star-empty {

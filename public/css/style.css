@@ -19,6 +19,12 @@ input[type="radio"]:checked {
     animation: pulse 2s infinite;
 }
 
+.custom-popup {
+    font-size: 30px;
+    /* font-weight: bold; */
+    color: #333;
+  }
+
 @keyframes pulse {
     0% {
         r: 0;

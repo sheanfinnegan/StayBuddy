@@ -7,11 +7,11 @@
             <div style="background: #FF5F1F;
 background: linear-gradient(170deg,rgba(255, 95, 31, 1) 30%, rgba(245, 234, 202, 1) 81%);"
                 class="w-[47%] p-10 pt-20 pl-15 rounded-tr-[150px] rounded-br-[150px]">
-                <h2 class="text-putih text-6xl font-popB mb-15 fw-bold text-shadow-lg">Register</h2>
+                <h2 class="text-putih text-6xl font-popB mb-10 fw-bold text-shadow-lg">Register</h2>
 
                 <form method="POST" action="" class="space-y-4">
                     @csrf
-                    <div class="container w-full flex flex-col gap-8">
+                    <div class="container w-full flex flex-col gap-5">
                         <div class="form-1 w-full flex gap-10">
                             <div class="flex flex-col gap-2">
                                 <label class="text-putih text-md font-semibold">First Name</label>
@@ -99,7 +99,7 @@ background: linear-gradient(170deg,rgba(255, 95, 31, 1) 30%, rgba(245, 234, 202,
             </div>
 
             {{-- Right Side: Logo --}}
-            <div class="w-[55%] bg-[#f4f3e6] flex items-center justify-center relative">
+            <div class="w-[50%] bg-[#f4f3e6] flex items-center justify-center relative">
                 <img src="{{ asset('assets/RegisBackground.png') }}" alt="StayBuddy Logo" class="w-full">
             </div>
         </div>
