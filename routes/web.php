@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\MapController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,3 +23,7 @@ Route::get('/profile', function () {
 Route::get('/profileGajadi', function () {
     return view('profileGajadi');
 })->name('profileGajadi');
+
+Route::get('/searchPage', [SearchController::class, 'index'])->name('searchPage');
+Route::get('/ajax/search-location', [MapController::class, 'ajaxSearch']);
+Route::get('/ajax/search-nearby', [MapController::class, 'searchNearby']);
