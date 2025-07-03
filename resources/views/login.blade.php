@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Login')
+
 @section('content')
     <div class="flex min-h-screen justify-center bg-[#f4f3e6]">
         <div class="flex w-screen">
@@ -15,7 +17,8 @@ background: linear-gradient(170deg,rgba(255, 95, 31, 1) 30%, rgba(245, 234, 202,
                 <h2 class="text-putih text-[80px] font-popB mb-15 fw-bold text-shadow-lg flex justify-center mt-10">Login
                 </h2>
 
-                <form method="" action="" class="space-y-4 flex justify-center items-center flex-col">
+                <form method="POST" action="{{ route('doLogin') }}"
+                    class="space-y-4 flex justify-center items-center flex-col">
                     @csrf
                     <div class="container w-full flex flex-col gap-8 items-center justify-center pl-10">
                         <div class="form-2 w-full pr-10">
@@ -24,6 +27,9 @@ background: linear-gradient(170deg,rgba(255, 95, 31, 1) 30%, rgba(245, 234, 202,
                                 <input type="email" name="email"
                                     class="w-full h-[50px] px-4 py-2 rounded-full bg-maroon text-putih shadow-md focus:outline-none border border-[#f4f3e6]"
                                     placeholder="Type here...">
+                                @error('email')
+                                    <p class="text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
 
@@ -33,6 +39,9 @@ background: linear-gradient(170deg,rgba(255, 95, 31, 1) 30%, rgba(245, 234, 202,
                                 <input type="password" name="password"
                                     class="w-full h-[50px] px-4 py-2 rounded-full bg-maroon text-putih shadow-md focus:outline-none border border-[#f4f3e6]"
                                     placeholder="Type here...">
+                                @error('password')
+                                    <p class="text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
                     </div>

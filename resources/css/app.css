@@ -18,6 +18,8 @@
     --color-oranye: #FF5F1F;
     --color-merah: #D62300;
     --color-maroon: #570807;
+    --color-cream: rgba(244, 243, 230, 0.47);
+    --color-abu: #838383
 
 }
 
@@ -33,6 +35,7 @@
 
 .indicator{
     transition: left .4s;
+}
 
 @font-face {
     font-family: 'popReg';

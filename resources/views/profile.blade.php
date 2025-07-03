@@ -1,66 +1,182 @@
-<!-- resources/views/history.blade.php -->
 @extends('layouts.app')
 
+@section('title', 'Profile')
+
 @section('content')
-    <div class="flex min-h-screen bg-white">
-
-        <!-- Sidebar -->
-        <aside class="w-96 bg-[#F9F6EF] text-[#2D2D2D] p-6 flex flex-col justify-between">
-            <div>
+    <div class="outerContainer w-full flex">
+        @include('components.sidebar')
+        <div class="ml-[414px] w-[72%]">
+            <div class="title pt-10 pb-6.5 ms-12">
+                <h1 class="font-popReg font-semibold text-3xl text-[#333333]">Profile</h1>
             </div>
-        </aside>
-
-        {{-- main --}}
-        <main class="flex-1 p-8">
-            <h1 class="text-3xl font-bold text-[#2D2D2D] mb-10 pb-5 border-b-2 border-[#651B1B]">
-                Transaction History
-            </h1>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-10">
-                {{-- nanti diganti for each --}}
-                @for ($i = 0; $i < 4; $i++)
-                    <div class="flex border-2 border-maroon rounded-xl p-4 shadow-md bg-white">
-                        <img src="{{ asset('assets/kos.jpeg') }}" alt="Kos"
-                            class="w-50 h-50  object-cover rounded-md mr-4 mt-1">
-                        <div class="flex flex-col w-full h-full gap-y-1">
-                            <h2 class="text-xl font-semibold text-[#651B1B]">Kos Bu Hani</h2>
-                            <p class="text-sm text-gray-600 flex items-center">
-                                <span class="text-yellow-500 mr-1">4.9</span>
-                                <i class="fas fa-star text-yellow-500 mr-1"></i>
-                                (500)
-                            </p>
-                            <p class="text-sm text-gray-600">Jl. Raya Jungle Land Avenue No.68, Babakan Madang</p>
-
-                            <div class="flex flex-col h-[50%] w-full mt-3 gap-y-3">
-                                <div class="flex flex-row w-full justify-between">
-                                    <div class="flex flex-col">
-                                        <p class="text-sm text-gray-600">Start Rent</p>
-                                        <h3 class="text-l font-semibold ">28 May 2022</h3>
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <p class="text-sm text-gray-600">End Rent</p>
-                                        <h3 class="text-l font-semibold">28 May 2025</h3>
-                                    </div>
-                                </div>
-                                <div class="flex flex-row w-full justify-between">
-                                    <div class="flex flex-col">
-                                        <p class="text-sm text-gray-600">Payment Info</p>
-                                        <h3 class="text-l font-semibold ">Credit Card</h3>
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <p class="text-sm text-gray-600">Price</p>
-                                        <h3 class="text-l font-semibold">Rp. 2.500.000</h3>
-                                    </div>
-                                </div>
+            <div class="line h-[1px] bg-maroon"></div>
+            <div class="content ms-12 mt-10 flex gap-12">
+                <div class="left w-[50%] flex flex-col gap-7">
+                    <div class="info">
+                        <h2 class="text-xl font-popReg font-semibold text-black pb-1">User Information</h2>
+                        <p id="desc-display" class="text-[17px] text-abu">{{ $data->desc }}</p>
+                        <textarea id="desc-input" class="border p-2 w-[300px] rounded hidden">{{ $data->desc }}</textarea>
+                    </div>
+                    <div class="email">
+                        <h3 class="text-xl text-black font-popReg font-semibold pb-1">Email address</h3>
+                        <p id="email-display" class="text-[17px] text-abu">{{ $data->email }}</p>
+                        <input id="email-input" type="email" class="border p-2 w-[300px] rounded hidden"
+                            value="{{ $data->email }}">
+                    </div>
+                    <div class="name">
+                        <h3 class="text-xl text-black font-popReg font-semibold pb-1">Full Name</h3>
+                        <p id="name-display" class="text-[17px] text-abu">{{ $data->name }}</p>
+                        <input id="name-input" type="text" class="border p-2 w-[300px] rounded hidden"
+                            value="{{ $data->name }}">
+                    </div>
+                    <div class="phone">
+                        <h3 class="text-xl text-black font-popReg font-semibold pb-1">Phone Number</h3>
+                        <p id="phone-display" class="text-[17px] text-abu">{{ $data->phone_num }}</p>
+                        <input id="phone-input" type="text" class="border p-2 w-[300px] rounded hidden"
+                            value="{{ $data->phone_num }}">
+                    </div>
+                    <div class="bod">
+                        <h3 class="text-xl text-black font-popReg font-semibold pb-1">Birth of Date</h3>
+                        <p id="bod-display" class="text-[17px] text-abu">{{ date('d F Y', strtotime($data->bod)) }}</p>
+                        <input id="bod-input" type="date" class="border p-2 w-[300px] rounded hidden"
+                            value="{{ $data->bod }}">
+                    </div>
+                    <div class="gender">
+                        <h3 class="text-xl text-black font-popReg font-semibold pb-1">Gender</h3>
+                        <p id="gender-display" class="text-[17px] text-abu">{{ $data->gender }}</p>
+                        <select id="gender-input" class="border p-2 w-[300px] rounded hidden">
+                            <option value="Male" {{ $data->gender == 'Male' ? 'selected' : '' }}>Male</option>
+                            <option value="Female" {{ $data->gender == 'Female' ? 'selected' : '' }}>Female</option>
+                        </select>
+                    </div>
+                    <div id="edit-button"
+                        class="edit px-5 py-2 bg-[#5E2D2D] font-popReg text-white rounded-sm w-[120px] text-center mt-4 cursor-pointer">
+                        Edit
+                    </div>
+                    <div id="save-button"
+                        class="edit px-5 py-2 bg-[#88A825] font-popReg text-white rounded-sm w-[120px] text-center mt-3 mb-8 hidden cursor-pointer">
+                        Save
+                    </div>
+                </div>
+                <div class="right w-[50%] flex flex-col gap-7">
+                    <div class="photo w-full flex flex-col">
+                        <h4 class="text-xl text-black font-popReg font-semibold mb-2">Profile photo</h4>
+                        <div class="w-full flex justify-center">
+                            <div class="w-fit relative">
+                                <img class="w-[180px] h-[180px] rounded-full" src="{{ asset('assets/profile.png') }}"
+                                    alt="">
+                                <img class="w-[50px] h-[50px] rounded-full py-2 px-2 bg-maroon absolute right-0 bottom-0"
+                                    src="{{ asset('assets/OrangFix.png') }}" alt="">
                             </div>
+
 
                         </div>
                     </div>
-                @endfor
+                    <div class="occupation">
+                        <h4 class="text-xl text-black font-popReg font-semibold pb-1">Occupation</h4>
+                        <p id="occupation-display" class="text-[17px] text-abu">{{ $data->occupation }}</p>
+                        <select id="occupation-input" class="border p-2 w-[300px] rounded hidden">
+                            <option value="Student" {{ $data->occupation == 'Student' ? 'selected' : '' }}>Student
+                            </option>
+                            <option value="Worker" {{ $data->occupation == 'Worker' ? 'selected' : '' }}>Worker
+                            </option>
+                            <option value="Businessman" {{ $data->occupation == 'Businessman' ? 'selected' : '' }}>
+                                Businessman</option>
+                        </select>
+                    </div>
+                    <div id="notification" class="w-full flex justify-center hidden">
+                        <div
+                            class=" w-fit bg-[#88A825] font-popReg font-semibold text-white px-4 py-3 rounded transition-opacity duration-500 mr-5">
+                            Data berhasil diperbarui!
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
 
     </div>
 
-    </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $('#edit-button').on('click', function() {
+            // Sembunyikan text
+            $('#desc-display, #email-display, #name-display, #phone-display, #bod-display, #gender-display, #occupation-display')
+                .hide();
 
-    </div>
+            // Tampilkan input
+            $('#desc-input, #email-input, #name-input, #phone-input, #bod-input, #gender-input, #occupation-input')
+                .removeClass('hidden');
+
+            // Ganti tombol
+            $('#edit-button').hide();
+            $('#save-button').show();
+        });
+
+        $('#save-button').on('click', function() {
+            let userId = '{{ $data->id }}';
+            console.log(userId)
+
+            let desc = $('#desc-input').val();
+            let email = $('#email-input').val();
+            let name = $('#name-input').val();
+            let phone = $('#phone-input').val();
+            let bod = $('#bod-input').val();
+            let gender = $('#gender-input').val();
+            let occupation = $('#occupation-input').val();
+
+            $.ajax({
+                url: '/user/' + userId,
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    desc: desc,
+                    email: email,
+                    name: name,
+                    phone_num: phone,
+                    bod: bod,
+                    gender: gender,
+                    occupation: occupation
+                },
+                success: function(response) {
+                    // Update tampilan text
+                    $('#desc-display').text(desc).show();
+                    $('#email-display').text(email).show();
+                    $('#name-display').text(name).show();
+                    $('#phone-display').text(phone).show();
+
+                    let formattedDate = new Date(bod).toLocaleDateString('id-ID', {
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric'
+                    });
+                    $('#bod-display').text(formattedDate).show();
+
+                    $('#gender-display').text(gender).show();
+                    $('#occupation-display').text(occupation).show();
+
+                    // Sembunyikan input
+                    $('#desc-input, #email-input, #name-input, #phone-input, #bod-input, #gender-input, #occupation-input')
+                        .addClass('hidden');
+
+                    // Ganti tombol
+                    $('#save-button').hide();
+                    $('#edit-button').show();
+                    $('#notification').removeClass('hidden').addClass('opacity-100');
+
+                    // Sembunyikan notifikasi setelah 5 detik
+                    setTimeout(function() {
+                        $('#notification').addClass('hidden').removeClass('opacity-100');
+                    }, 5000);
+
+                    // alert('Data berhasil diperbarui!');
+                },
+                error: function(xhr) {
+                    alert('Gagal update data!');
+                }
+            });
+        });
+    </script>
+
+
+
+@endsection
