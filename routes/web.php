@@ -7,6 +7,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\profileController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\QuestionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -45,8 +46,11 @@ Route::get('/searchPage', [SearchController::class, 'index'])->name('searchPage'
 Route::get('/ajax/search-location', [MapController::class, 'ajaxSearch']);
 Route::get('/ajax/search-nearby', [MapController::class, 'searchNearby']);
 
+Route::get('/questionnaire/{id}', [QuestionController::class, 'show'])->name('questionnaire.show');
+Route::post('/questionnaire/next', [QuestionController::class, 'next'])->name('questionnaire.next');
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [profileController::class, 'index'])->name('profile');
     
 });
-
