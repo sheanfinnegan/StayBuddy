@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Search Page')
+
 @section('content')
     <div class="z-[0]" id="map"></div>
     <div class="fullnav w-fit pr-7 flex justify-between absolute top-0 left-0 z-10">
@@ -46,11 +48,18 @@
         </div>
 
     </div>
-    <div class="absolute top-0 right-0 z-10 flex items-center pr-6">
-        <a href="{{ route('login') }}">
-            <img src="{{ asset('assets/Profile.png') }}" alt=""
-                class="w-[110px] pt-3 hover:scale-[1.1] animation-all duration-100">
-        </a>
+    <div class="absolute top-0 right-0 z-10 flex items-center mr-10 mt-7">
+        @auth
+            <a href="{{ route('profile') }}">
+                <img src="{{ asset('assets/iconProfile1.png') }}" alt=""
+                    class="w-[80px] pt-3 hover:scale-[1.1] transition-all duration-100">
+            </a>
+        @else
+            <a href="{{ route('login') }}">
+                <img src="{{ asset('assets/iconProfile1.png') }}" alt=""
+                    class="w-[80px] pt-3 hover:scale-[1.1] transition-all duration-100">
+            </a>
+        @endauth
     </div>
     {{-- <div class="bg-[url('/public/assets/maps.png')] w-full h-[100vh]  bg-cover bg-center"></div> --}}
 
@@ -180,6 +189,7 @@
                     // data.results adalah array tempat-tempat dari backend
                     // bisa bikin marker baru untuk tiap tempat
                     const results = data.results;
+                    console.log(results);
 
                     // Update popup info marker
 
@@ -205,11 +215,13 @@
                         marker.push(mark);
                     });
 
+
+
                     // Render results list
                     resultsContainer.innerHTML = results.map(item => {
                         const categoryName = item.categories?.[0]?.name || 'Kategori tidak diketahui';
                         return `
-        <div data-fsq-id="${item.details.fsq_id}"
+        <div data-fsq-id="${item.fsq_id}"
             class="homeCardContainer flex flex-col gap-5 bg-white border-2 border-maroon rounded-xl px-4 py-5 shadow-[2px_3px_5px_rgba(0,0,0,0.25)] hover:scale-[1.01] duration-100 hover:cursor-pointer">
             <div class="homeCard flex flex-col gap-2 items-center">
                 <div class="homeInfo1 flex gap-[7px] items-center">
@@ -237,6 +249,8 @@
         </div>`;
                     }).join('');
 
+                    console.log('test')
+
                     if (nav.classList.contains('h-fit')) {
                         nav.classList.add('h-screen');
                         nav.classList.remove('h-fit');
@@ -244,6 +258,31 @@
                         result.classList.add('opacity-100');
                         dropDown.src = "{{ asset('assets/Dropup.png') }}";
                     }
+
+                    let listHome = document.querySelectorAll(".homeCardContainer")
+                    console.log(listHome)
+                    if (dropArrow.classList.contains('hidden')) {
+                        dropArrow.classList.remove('hidden');
+                        nav.classList.remove('pb-7');
+                        nav.classList.add('pb-3');
+
+                    }
+                    listHome.forEach(home => {
+                        home.addEventListener("click", () => {
+                            let id = home.getAttribute("data-fsq-id");
+                            console.log(id)
+                            let item = results.find(i => i.fsq_id === id);
+                            // console.log(item);
+                            renderHomeDetail(item);
+
+
+
+
+
+
+
+                        })
+                    });
                 })
                 .catch(err => {
                     lastMarker.getPopup().setContent('Gagal mencari tempat').openOn(map);
@@ -374,7 +413,7 @@
                     listHome.forEach(home => {
                         home.addEventListener("click", () => {
                             let id = home.getAttribute("data-fsq-id");
-                            // console.log(id)
+                            console.log(id)
                             let item = results.find(i => i.details.fsq_id === id);
                             // console.log(item);
                             renderHomeDetail(item);
@@ -406,7 +445,6 @@
             let homeDetail = document.querySelector('.homeDetail');
             homeDetail.classList.remove('hidden');
             homeDetail.classList.add('flex');
-            console.log("tes");
             let photos = home.photos?.slice(0, 5) || [];
             homeDetail.innerHTML = `
             <div
@@ -420,9 +458,9 @@
                     <!-- Thumbnail Images -->
                     <div class="flex justify-start mt-1 gap-1">
                         ${photos.map((photo, index) => `
-                                                                                                                                                                                                                                                                                                                                                                                                                            <img class="thumb w-[42px] h-10 object-cover cursor-pointer ${index === 0 ? 'opacity-100 border-1 border-yellow-400' : 'opacity-50'}"
-                                                                                                                                                                                                                                                                                                                                                                                                                                src="${photo.url || asset('assets/hs-' + (index + 1) + '.png')}" alt="">
-                                                                                                                                                                                                                                                                                                                                                                                                                        `).join('')}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <img class="thumb w-[42px] h-10 object-cover cursor-pointer ${index === 0 ? 'opacity-100 border-1 border-yellow-400' : 'opacity-50'}"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    src="${photo.url || asset('assets/hs-' + (index + 1) + '.png')}" alt="">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            `).join('')}
                        
                     </div>
                 </div>
