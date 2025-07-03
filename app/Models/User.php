@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
 
 class User extends Authenticatable
 {
@@ -17,6 +18,10 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+    protected $table = 'user';
+    protected $primaryKey = 'UID';
+    public $timestamps = false;
+
     protected $fillable = [
         'name',
         'email',
@@ -44,5 +49,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(UserProfile::class, 'UID');
+    }
+
+    public function preference()
+    {
+        return $this->hasOne(UserPreference::class, 'UID');
     }
 }
