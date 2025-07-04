@@ -12,7 +12,8 @@
             </div>
             <div class="upperNav ms-1 mt-15 font-popReg ">
                 <div class="up flex flex-col gap-5">
-                    <div class="profileDetail flex items-center justify-between bg-putih ps-5 py-0.5 rounded-xl">
+                    <div id="load-profile"
+                        class="profileDetail flex items-center justify-between active-bar hover:bg-putih ps-5 py-0.5 rounded-xl hover:cursor-pointer">
                         <div class="flex gap-4 items-center">
                             <ion-icon class="text-abu text-[27px] font-bold" name="person-outline"></ion-icon>
                             <p class="text-[18px] font-semibold">Profile</p>
@@ -21,7 +22,8 @@
                         <img class="w-[60px]" src="{{ asset('assets/iconNext.png') }}" alt="">
 
                     </div>
-                    <div class="preferences flex items-center justify-between ps-5 py-0.5 rounded-xl">
+                    <div id="load-preference"
+                        class="preferences flex items-center justify-between ps-5 py-0.5 rounded-xl hover:bg-putih hover:cursor-pointer">
                         <div class="flex gap-3 items-center">
                             <ion-icon class="text-abu text-[35px] font-bold" name="cog-outline"></ion-icon>
                             <p class="text-[18px] ">Your Preferences</p>
@@ -30,7 +32,8 @@
                         <img class="w-[60px]" src="{{ asset('assets/iconNext.png') }}" alt="">
 
                     </div>
-                    <div class="history flex items-center justify-between ps-5 py-0.5 rounded-xl">
+                    <div id="load-history"
+                        class="history flex items-center justify-between ps-5 py-0.5 rounded-xl hover:bg-putih hover:cursor-pointer">
                         <div class="flex gap-4 items-center">
                             <ion-icon class="text-abu text-[30px] font-bold" name="arrow-undo-outline"></ion-icon>
                             <p class="text-[18px]">History</p>
@@ -43,7 +46,7 @@
             </div>
         </div>
         <div class="bottom ms-1 font-popReg">
-            <a href="{{ route('searchPage') }}" class="map flex gap-4 items-center ps-5 py-0.5">
+            <a href="{{ route('searchPage') }}" class="map flex gap-4 items-center hover:bg-putih ps-5 py-4 rounded-xl">
 
                 <ion-icon class="text-[30px] text-maroon" name="map-outline"></ion-icon>
                 <p class="text-[18px]">Maps</p>
@@ -60,9 +63,9 @@
 
     <div class="bottomNav ms-1">
         <div class="h-[1px] w-full bg-maroon mb-8"></div>
-        <form method="POST" action="{{ route('logout') }}" class="signOut">
+        <form method="POST" action="{{ route('logout') }}" class="signOut ps-5 py-4 hover:bg-putih rounded-xl">
             @csrf
-            <button type="submit " class="flex gap-4 items-center ps-5 py-0.5 font-popReg hover:cursor-pointer">
+            <button type="submit " class="flex gap-4 items-center   font-popReg hover:cursor-pointer">
                 <ion-icon class="text-[30px] text-maroon" name="log-out-outline"></ion-icon>
                 <p class="text-[18px]">Sign Out</p>
             </button>

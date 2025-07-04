@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('questions', function (Blueprint $table) {
         $table->id();
         $table->string('question_text');
-        $table->string('option_1');
-        $table->string('option_2');
-        $table->string('option_3');
-        $table->string('option_4');
+        $table->string('option_1')->nullable();
+        $table->string('option_2')->nullable();
+        $table->string('option_3')->nullable();
+        $table->string('option_4')->nullable();
+        $table->string('option_5')->nullable();
         $table->timestamps();
     });
     }

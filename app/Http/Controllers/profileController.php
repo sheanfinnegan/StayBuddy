@@ -12,8 +12,18 @@ class profileController extends Controller
     public function index() {
         $data = Auth::user();
         // dd($data);
-        return view('profile', ['data' => $data]);
+        $loadPreference = session('loadPreference', false);
+
+        return view('profile', compact('data', 'loadPreference'));
     }
+
+
+
+    public function loadProfileContent()
+{
+    $data = Auth::user();
+    return view('partials.profile_content', compact('data'));
+}
 
     public function update(Request $request, $id){
         // return response()->json($request->all());

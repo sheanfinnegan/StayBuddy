@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\loginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\MapController;
+use App\Http\Controllers\PreferenceController;
 use App\Http\Controllers\profileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\QuestionController;
@@ -36,11 +38,12 @@ Route::get('/profile/history', function () {
 
 Route::get('/profile', [profileController::class, 'index'])->name('profile');
 Route::post('/user/{id}', [profileController::class, 'update'])->name('user.update');
+Route::get('/profile-content', [profileController::class, 'loadProfileContent'])->name('profile.content');
+Route::get('/preference-content', [PreferenceController::class, 'loadPreferenceContent'])->name('preference.content');
+Route::get('/history-content', [HistoryController::class, 'loadHistoryContent'])->name('history.content');
 
 
-Route::get('/preference', function () {
-    return view('preference');
-})->name('preference');
+Route::get('/preference', [PreferenceController::class, 'index'])->name('preference');
 
 Route::get('/searchPage', [SearchController::class, 'index'])->name('searchPage');
 Route::get('/ajax/search-location', [MapController::class, 'ajaxSearch']);
@@ -48,6 +51,8 @@ Route::get('/ajax/search-nearby', [MapController::class, 'searchNearby']);
 
 Route::get('/questionnaire/{id}', [QuestionController::class, 'show'])->name('questionnaire.show');
 Route::post('/questionnaire/next', [QuestionController::class, 'next'])->name('questionnaire.next');
+Route::post('/questionnaire/submit', [QuestionController::class, 'submit'])->name('questionnaire.submit');
+
 
 
 Route::middleware('auth')->group(function () {
