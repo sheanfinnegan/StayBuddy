@@ -25,6 +25,10 @@ input[type="radio"]:checked {
     color: #333;
   }
 
+.active-bar {
+    background-color: #F4F3E6;
+}
+
 @keyframes pulse {
     0% {
         r: 0;
