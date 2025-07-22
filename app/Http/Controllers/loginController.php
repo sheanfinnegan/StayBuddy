@@ -10,7 +10,7 @@ class LoginController extends Controller
 {
     public function index()
     {
-        return view('login'); // Pastikan ini nama view login kamu
+        return view('login'); 
     }
 
     public function login(Request $request)
@@ -23,7 +23,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/searchPage'); // Redirect ke halaman setelah login
+            return redirect()->intended('/searchPage'); 
         }
 
         
@@ -41,6 +41,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect('/searchPage');
     }
 }

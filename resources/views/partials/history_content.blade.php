@@ -1,49 +1,127 @@
+{{-- @php
+    dd($waitingLists);
+@endphp --}}
+
+<div id="popupDetail" class="fixed inset-0 position-absolute top-0 z-[100] hidden">
+    {{-- @include('popup.rmdetailpopup') --}}
+</div>
 <div class="title pt-10 pb-6.5 ms-12">
-    <h1 class="font-popReg font-semibold text-3xl text-[#333333]">Your Preferences</h1>
+    <h1 class="font-popReg font-semibold text-3xl text-[#333333]">Transaksi Anda</h1>
 </div>
 <div class="line h-[1px] bg-maroon"></div>
 <div class="content ms-12 mt-10 flex gap-12">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-10">
-        {{-- nanti diganti for each --}}
-        @for ($i = 0; $i < 4; $i++)
-            <div class="flex border-2 border-maroon rounded-xl p-4 shadow-md bg-white">
-                <img src="{{ asset('assets/kos.jpeg') }}" alt="Kos"
-                    class="w-50 h-50  object-cover rounded-md mr-4 mt-1">
-                <div class="flex flex-col w-full h-full gap-y-1">
-                    <h2 class="text-xl font-semibold text-[#651B1B]">Kos Bu Hani</h2>
-                    <p class="text-sm text-gray-600 flex items-center">
-                        <span class="text-yellow-500 mr-1">4.9</span>
-                        <i class="fas fa-star text-yellow-500 mr-1"></i>
-                        (500)
-                    </p>
-                    <p class="text-sm text-gray-600">Jl. Raya Jungle Land Avenue No.68, Babakan Madang</p>
+    {{-- nanti diganti for each --}}
+    {{-- @for ($i = 0; $i < 4; $i++) --}}
+    @if ($waitingLists->isEmpty())
+        <h1 class="text-maroon text-3xl font-popB">Belum ada transaksi</h1>
+    @else
+        @foreach ($waitingLists as $waitingList)
+            @php
 
-                    <div class="flex flex-col h-[50%] w-full mt-3 gap-y-3">
-                        <div class="flex flex-row w-full justify-between">
-                            <div class="flex flex-col">
-                                <p class="text-sm text-gray-600">Start Rent</p>
-                                <h3 class="text-l font-semibold ">28 May 2022</h3>
+                $userCount = $waitingList->users->count();
+                $maxPax = $waitingList->homestay->max_pax;
+                $paidCount = $waitingList->payment->where('paid', true)->count();
+
+                // Ambil payment user login
+                $myPayment = $waitingList->paymentForUser;
+
+                \Carbon\Carbon::setLocale('id');
+                $startDate = \Carbon\Carbon::parse($waitingList->created_at);
+
+                if ($waitingList->homestay->duration == 'Bulanan') {
+                    $endDate = $startDate->copy()->addMonth();
+                } elseif ($waitingList->homestay->duration == 'Tahunan') {
+                    $endDate = $startDate->copy()->addYear();
+                } else {
+                    $endDate = $startDate;
+                }
+
+                $startformatted = $startDate->translatedFormat('d F Y'); // Contoh: 18 Juli 2022
+                $endformatted = $endDate->translatedFormat('d F Y');
+                // dd($waitingList->paymentForUser->payment_id);
+            @endphp
+            <div
+                class="flex border-2 border-maroon rounded-xl p-4 shadow-xl bg-white hover:scale-[1.02] transition-all duration-100 cursor-pointer w-[60%]">
+                {{-- <div class="flex border-2 border-maroon rounded-xl p-4 shadow-md bg-white"> --}}
+                <img src="{{ asset($waitingList->homestay->main_images) }}" alt="Kos"
+                    class="w-50 h-full  object-cover rounded-md mr-4 mt-1">
+                <div class="flex flex-col w-full h-full gap-y-1">
+                    <h2 class="text-xl font-semibold text-[#651B1B]">{{ $waitingList->homestay->name }}</h2>
+                    <p class="text-sm text-gray-600 flex items-center ">
+                        <span class="text-yellow-500 mr-1">{{ $waitingList->homestay->rating }}</span>
+                        <x-star-rating :rating="$waitingList->homestay->rating" />
+                    </p>
+                    <p class="text-sm text-gray-600">{{ $waitingList->homestay->alamat }}</p>
+
+                    <div class="flex flex-col h-[70%] w-full mt-3 gap-y-3">
+                        <div class="flex flex-row w-full">
+                            <div class="flex flex-col w-[50%]">
+                                <p class="text-sm text-gray-600">Awal Sewa</p>
+                                <h3 class="text-l font-semibold ">{{ $startformatted }}</h3>
                             </div>
-                            <div class="flex flex-col">
-                                <p class="text-sm text-gray-600">End Rent</p>
-                                <h3 class="text-l font-semibold">28 May 2025</h3>
+                            <div class="flex flex-col w-[50%]">
+                                <p class="text-sm text-gray-600">Akhir Rent ({{ $waitingList->homestay->duration }})</p>
+                                <h3 class="text-l font-semibold">{{ $endformatted }}
+                                </h3>
                             </div>
                         </div>
-                        <div class="flex flex-row w-full justify-between">
-                            <div class="flex flex-col">
-                                <p class="text-sm text-gray-600">Payment Info</p>
-                                <h3 class="text-l font-semibold ">Credit Card</h3>
+                        <div class="flex flex-row w-full">
+                            <div class="flex flex-col w-[50%]">
+                                <p class="text-sm text-gray-600">Info Pembayaran</p>
+                                @if ($myPayment->paid == 0)
+                                    @if ($userCount < $maxPax)
+                                        <h3 class="text-l font-semibold ">Menunggu buddies lain</h3>
+                                    @else
+                                        <h3 class="text-l font-semibold ">Lakukan pembayaran</h3>
+                                    @endif
+                                @else
+                                    <h3 class="text-l font-semibold text-maroon">Selesai
+                                        ({{ $paidCount . '/' . $waitingList->homestay->max_pax }})
+                                    </h3>
+                                @endif
+
+
                             </div>
-                            <div class="flex flex-col">
-                                <p class="text-sm text-gray-600">Price</p>
-                                <h3 class="text-l font-semibold">Rp. 2.500.000</h3>
+                            <div class="flex flex-col w-[50%]">
+                                <p class="text-sm text-gray-600">Harga / pax</p>
+                                <h3 class="text-l font-semibold">
+                                    {{ $waitingList->paymentForUser->price }} Juta</h3>
                             </div>
                         </div>
+
+                        @if ($myPayment->paid == 0)
+                            @if ($userCount == $maxPax)
+                                <div class="flex items-center gap-4 pr-2">
+                                    <form action="{{ route('payment.cancel') }}" method="POST"
+                                        class="w-[50%]  text-right">
+                                        @csrf
+                                        <input type="hidden" name="payment_id"
+                                            value="{{ $waitingList->paymentForUser->payment_id }}">
+
+                                        <button type="submit"
+                                            class="cancelWL text-md text-abu font-popReg rounded-2xl text-right py-2 hover:text-maroon hover:underline cursor-pointer">
+                                            cancel
+                                        </button>
+                                    </form>
+
+                                    <div data-wlid = "{{ $waitingList->paymentForUser->payment_id }}"
+                                        class="pay-now w-[55%] text-md text-white font-popReg rounded-2xl bg-[#88A825] text-center py-2 px-3">
+                                        Bayar sekarang
+                                    </div>
+
+                                </div>
+                            @endif
+                        @endif
+
+
+
                     </div>
 
                 </div>
             </div>
-        @endfor
-    </div>
+        @endforeach
+    @endif
+    {{-- @endfor --}}
+
 
 </div>

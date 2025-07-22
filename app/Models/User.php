@@ -31,6 +31,7 @@ class User extends Authenticatable
         'gender',
         'occupation',
         'password',
+        'profile_picture', // Tambahkan field profile_picture
     ];
 
     /**
@@ -63,6 +64,16 @@ class User extends Authenticatable
 
     public function preference()
     {
-        return $this->hasOne(UserPreference::class, 'UID');
+        return $this->hasOne(UserPreference::class, 'user_id');
     }
+    public function waitingList()
+{
+    return $this->belongsTo(WaitingList::class, 'wlid', 'wlid');
+}
+
+public function payments()
+{
+    return $this->hasMany(Payment::class, 'user_id');
+}
+
 }

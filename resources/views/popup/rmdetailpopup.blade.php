@@ -1,219 +1,363 @@
-<?php 
-use Carbon\Carbon;
-?>
+@php
+    // dd($users);
+    $userCount = $users->count();
+    $id = Auth::id();
+    $hasCurrentUser = false;
+    if ($id) {
+        $hasCurrentUser = $users->contains('id', $id);
+    }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    // dd($home->first()->max_pax, $userCount);
 
-     <!-- Css and Js files -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <style>
-        .flip-card{
-            perspective: 1000px;
-             width: 16rem;
-            height: 30rem;
-            cursor: pointer;
-        }
-        .flip-card-inner {
-            /* position: relative; */
-             transform-origin: center center;
-            transform-style: preserve-3d;
-        }
-        .flip-card.flipped .flip-card-inner {
-            transform: rotateY(180deg);
-        }
+@endphp
+<div id="popupCon"
+    class="min-h-screen position-absolute top-0 z-30 bg-[rgba(0,0,0,0.4)] flex items-center justify-center">
+    <div id="conLuar" class="bg-[#f4f3e6] px-6 py-10  rounded-3xl w-[95%] max-w-screen-xl relative h-[70%]">
 
-        .flip-card-front,
-        .flip-card-back {
-            top: 0;
-            left: 0;
-            position: absolute;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            width: 100%;
-            height: 100%;
-        }
-
-        .flip-card-back{
-            transform: rotateY(180deg);
-        }
-    </style>
-</head>
-<body>
-    <div class="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div class="bg-[#f4f3e6] p-6 rounded-xl w-[90%] max-w-screen-xl relative h-[70%]">
-            
-            <button class="top-8 right-10 text-xl absolute ">❌</button>
-            <!-- Header -->
-            <div class=" w-[80%] mx-[10%] relative">
-                <div class="flex justify-center items-center bg-[#570807] text-white px-6 py-2">
-                    <h2 class="text-xl font-bold text-center">BUDDIES 1</h2>
-                </div>
-                <div class="text-xl absolute top-2 right-10 font-bold text-[#FF5F1F]">3/4</div>
-
+        <button id="closePopup" class="closeBtn top-8 right-10 text-xl absolute cursor-pointer">
+            <img src="{{ asset('assets/closeX.png') }}" alt="" class="w-10 h-10">
+            {{-- <i class="fas fa-times"></i> --}}
+        </button>
+        <!-- Header -->
+        <div class=" w-[80%] mx-[10%] relative">
+            <div class="flex justify-center items-center bg-[#570807] text-white px-6 py-2">
+                <h2 class="wlTitle text-2xl font-bold text-center">
+                    {{ $userCount != 0 ? 'BUDDIES DETAIL' : 'BUAT BUDDIES' }}</h2>
             </div>
-            
-            <!-- Card List -->
-            <div class="flex overflow-x-auto space-x-4 py-4 justify-center">
-                <!-- Card 1-->
-                @foreach($users as $user)
-                    <div class="flip-card w-64 h-[400px]">
-                        <div class="flip-card-inner w-full h-full transition-transform duration-500 transform">
-                            <!-- Front Card -->
-                            <div class="bg-[#570807] flip-card-front text-white rounded-xl shadow-lg p-4 min-w-[200px] w-64 relative border-4 border-[#f8A91f] min-h-[480px]">
-                                <div class="absolute top-0 right-0 -mt-4 -mr-4 bg-[#f8A91f] rounded px-1 text-black font-bold text-sm"></div>
-                                <img src="{{ asset('image/eric.jpg') }}" class="rounded-lg h-70 mb-2 flex justify-center mx-auto my-auto" alt="Foto" />
-                                <div class="text-left font-bold mt-8 ml-2 flex mx-auto text-xl">{{ $user->Username }}</div>
-                                <div class="text-sm text-left flex ml-2 mx-auto">
-                                    {{ Carbon::parse($user->profile->DOB)->age }} Tahun<br />
-                                    Phone: {{$user->PhoneNumber}}<br />
-                                    Email: {{$user->Email}}<br />
+            <div id="uCount" class="text-xl absolute top-2 right-10 font-bold text-[#FF5F1F]">
+                {{ $userCount . '/' . $home->first()->max_pax }}</div>
+
+        </div>
+
+        <!-- Card List -->
+        <div id="listCardUser" class="flex overflow-x-auto space-x-4 py-4 justify-center">
+            <!-- Card 1-->
+            @if (!$users->isEmpty())
+                @foreach ($users as $index => $user)
+                    <div class="group perspective w-[300px] h-[480px] cursor-pointer">
+                        <div class="relative w-full h-full transition-transform duration-700 transform-style-preserve-3d group-[.flipped]:rotate-y-180"
+                            id="cardInner">
+                            {{-- Front Side --}}
+                            <div
+                                class="absolute w-full h-full backface-hidden bg-[#570807] text-white rounded-3xl shadow-lg border-4 border-[#f8A91f] p-4">
+                                <img src="{{ asset($user->profile_picture) }}"
+                                    class="rounded-lg h-52 object-cover w-full mb-4" alt="Foto" />
+                                <div class="text-xl font-bold">{{ $user->name }}</div>
+                                <div class="flex gap-2 items-center">
+                                    <div class="text-sm">
+                                        Rating: {{ number_format($user->rating, 1) }}
+                                    </div>
+                                    <x-star-rating :rating="$user->rating" />
                                 </div>
-                                <div class="flex items-center justify-center h-16 w-16 mx-auto mt-2 absolute top-75 left-35 right-0">
-                                    <svg class="transform -rotate-90 w-full h-full" viewBox="0 0 100 100">
-                                        <circle
-                                        cx="50"
-                                        cy="50"
-                                        r="45"
-                                        {{-- stroke="#e5e7eb" --}}
-                                        stroke-width="10"
-                                        fill="transparent"
-                                        />
-                                        <circle
-                                        cx="50"
-                                        cy="50"
-                                        r="45"
-                                        stroke="#f4f3e6"
-                                        stroke-width="10"
-                                        fill="transparent"
-                                        stroke-dasharray="282.6"
-                                        stroke-dashoffset="56.52"
-                                        stroke-linecap="round"
-                                        />
-                                    </svg>
-                                    <div class="absolute text-center flex flex-col items-center">
-                                        <span class="text-sm font-bold">80%</span>
-                                        <span class="text-xs font-bold">match</span>
+                                <div class="text-sm">
+                                    Umur: {{ \Carbon\Carbon::parse($user->bod)->age }} Tahun<br />
+                                    No. telp: {{ $user->phone_num }} <br />
+                                    Email: {{ $user->email }}<br />
+                                </div>
+
+                                {{-- Match Circle --}}
+                                @auth
+                                    @if ($user->id == Auth::id())
+                                        <div class="mb-20"></div>
+                                    @else
+                                        <div class="relative flex justify-center items-center mt-3">
+                                            <svg class="w-17 h-17 transform -rotate-90" viewBox="0 0 100 100">
+                                                <circle cx="50" cy="50" r="45" stroke="#e5e7eb"
+                                                    stroke-width="10" fill="transparent" />
+                                                <circle cx="50" cy="50" r="45" stroke="#f4f3e6"
+                                                    stroke-width="10" fill="transparent" stroke-dasharray="282.6"
+                                                    stroke-dashoffset="56.52" stroke-linecap="round" />
+                                            </svg>
+                                            <div class="absolute text-center flex flex-col">
+                                                <span class="text-md font-bold">{{ $user->score }}%</span>
+                                                <span class="text-sm font-bold">match</span>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @else
+                                    <div class="mb-20"></div>
+
+                                @endauth
+
+                                <div class="mt-1 text-center text-white underline">Preferensi User</div>
+                            </div>
+
+                            <div
+                                class="absolute w-full h-full backface-hidden rotate-y-180 bg-[#570807] text-white rounded-3xl shadow-lg border-4 border-[#f8A91f] p-4">
+
+                                <div class="h-full overflow-y-auto pr-1 pb-6 scrollbar-hide">
+                                    <h1 class="w-full text-center font-popReg font-semibold text-[20px] py-3">
+                                        {{ $user->name }}
+                                        Preferensi</h1>
+                                    <div class="text-sm space-y-5 flex flex-col items-center">
+                                        <!-- konten pertanyaan -->
+                                        <div class="smoking flex items-center gap-4">
+                                            <div class="img w-[30%]">
+                                                <div
+                                                    class="w-18 h-18 flex items-center justify-center rounded-full bg-[rgba(202,143,143,0.4)] border border-maroon">
+
+
+                                                    <ion-icon class="text-[50px] text-maroon"
+                                                        name="logo-no-smoking"></ion-icon>
+                                                </div>
+                                            </div>
+                                            <div class="info text-[16px] w-[70%]">
+                                                <h1 class="font-popReg font-bold pb-1">Toleransi merokok</h1>
+                                                <h1 class="font-popReg text-[#797979]">
+                                                    {{ $user->preference->smoking }}
+                                                </h1>
+                                            </div>
+                                        </div>
+                                        <div class="alcoholic flex items-center gap-4">
+                                            <div class="img w-[30%]">
+                                                <div
+                                                    class="w-18 h-18 flex items-center justify-center rounded-full bg-[rgba(248,169,31,0.4)] border border-kuning">
+                                                    <ion-icon class="text-[45px] text-kuning"
+                                                        name="beer-outline"></ion-icon>
+                                                </div>
+                                            </div>
+                                            <div class="info text-[16px] w-[70%]">
+
+                                                <h1 class="font-popReg font-bold pb-1">Toleransi Alcoholic</h1>
+                                                <h1 class="font-popReg text-[#797979]">
+                                                    {{ $user->preference->alcoholic }}</h1>
+
+                                            </div>
+                                        </div>
+                                        <div class="tidiness flex items-center gap-4 w-full pl-1.5">
+                                            <div class="img w-[30%]">
+                                                <div
+                                                    class="w-18 h-18 flex items-center justify-center rounded-full bg-[rgba(214,35,0,0.4)] border border-merah">
+                                                    <ion-icon class="text-[40px] text-merah"
+                                                        name="trash-outline"></ion-icon>
+                                                </div>
+                                            </div>
+                                            <div class="info text-[16px] w-[70%]">
+
+                                                <h1 class="font-popReg font-bold pb-3">Kerapihan</h1>
+                                                <div class="flex gap-0.5">
+                                                    <!-- Bar 1 (active) -->
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        <div
+                                                            class="w-7 h-3 {{ $i <= $user->preference->tidiness ? 'bg-[#88A825]' : 'bg-[rgba(98,98,98,0.28)]' }} rounded-full">
+                                                        </div>
+                                                    @endfor
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="age flex items-center gap-4 w-full pl-1.5">
+                                            <div class="img w-[30%]">
+                                                <div
+                                                    class="w-18 h-18 flex items-center justify-center rounded-full bg-[rgba(255,95,31,0.4)] border border-oranye">
+                                                    <ion-icon class="text-[35px] text-oranye"
+                                                        name="people-outline"></ion-icon>
+                                                </div>
+                                            </div>
+                                            <div class="info text-[16px] w-[70%]">
+
+                                                <h1 class="font-popReg font-bold pb-1">Preferensi umur</h1>
+                                                <h1 class="font-popReg text-[#797979]">
+                                                    {{ $user->preference->prefered_age }}</h1>
+
+                                            </div>
+                                        </div>
+                                        <div class="dailyRoutine flex items-center gap-4 w-full pl-1.5">
+                                            <div class="img w-[30%]">
+                                                <div
+                                                    class="w-18 h-18 flex items-center justify-center rounded-full bg-[rgba(202,143,143,0.4)] border border-maroon">
+
+                                                    <ion-icon class="text-[35px] text-maroon"
+                                                        name="sunny-outline"></ion-icon>
+                                                </div>
+                                            </div>
+                                            <div class="info text-[16px] w-[70%]">
+                                                <h1 class="font-popReg font-bold pb-1">Tipe Kegiatan Daily</h1>
+                                                <h1 class="font-popReg text-[#797979] text-[15px]">
+                                                    {{ $user->preference->routine_type }}</h1>
+                                            </div>
+                                        </div>
+                                        <div class="room flex items-center gap-4 w-full pl-1.5">
+                                            <div class="img w-[30%]">
+                                                <div
+                                                    class="w-18 h-18 flex items-center justify-center rounded-full bg-[rgba(248,169,31,0.4)] border border-kuning">
+                                                    <ion-icon class="text-[40px] text-kuning"
+                                                        name="bed-outline"></ion-icon>
+                                                </div>
+                                            </div>
+                                            <div class="info text-[16px] w-[70%]">
+                                                <h1 class="font-popReg font-bold pb-1">Tipe kamar</h1>
+                                                <h1 class="font-popReg text-[#797979]">
+                                                    {{ $user->preference->room_type }}</h1>
+                                            </div>
+                                        </div>
+                                        <div class="socializing flex items-center gap-4 w-full pl-1.5">
+                                            <div class="img w-[30%]">
+                                                <div
+                                                    class="w-18 h-18 flex items-center justify-center rounded-full bg-[rgba(214,35,0,0.4)] border border-merah">
+                                                    <ion-icon class="text-[35px] text-merah"
+                                                        name="accessibility-outline"></ion-icon>
+                                                </div>
+                                            </div>
+                                            <div class="info text-[16px] w-[70%]">
+                                                <h1 class="font-popReg font-bold pb-3">Tingkat sosialisasi</h1>
+                                                <div class="flex gap-0.5">
+                                                    <!-- Bar 1 (active) -->
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        <div
+                                                            class="w-7 h-3 {{ $i <= $user->preference->socializing ? 'bg-[#88A825]' : 'bg-[rgba(98,98,98,0.28)]' }} rounded-full">
+                                                        </div>
+                                                    @endfor
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="cooking flex items-center gap-4">
+                                            <div class="img w-[30%]">
+                                                <div
+                                                    class="w-18 h-18 flex items-center justify-center rounded-full bg-[rgba(255,95,31,0.4)] border border-oranye">
+                                                    <ion-icon class="text-[35px] text-oranye"
+                                                        name="restaurant-outline"></ion-icon>
+                                                </div>
+                                            </div>
+                                            <div class="info text-[16px] w-[70%]">
+                                                <h1 class="font-popReg font-bold pb-3">Frekuensi Masak</h1>
+                                                <div class="flex gap-0.5">
+                                                    <!-- Bar 1 (active) -->
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        <div
+                                                            class="w-7 h-3 {{ $i <= $user->preference->cooking_freq ? 'bg-[#88A825]' : 'bg-[rgba(98,98,98,0.28)]' }} rounded-full">
+                                                        </div>
+                                                    @endfor
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="petFriendly flex items-center gap-4 w-full pl-1.5">
+                                            <div class="img w-[30%]">
+                                                <div
+                                                    class="w-18 h-18 flex items-center justify-center rounded-full bg-[rgba(202,143,143,0.4)] border border-maroon">
+                                                    <ion-icon class="text-[35px] text-maroon"
+                                                        name="thermometer-outline"></ion-icon>
+                                                </div>
+                                            </div>
+                                            <div class="info text-[16px] w-[70%]">
+                                                <h1 class="font-popReg font-bold pb-1">Suhu ruangan</h1>
+                                                <h1 class="font-popReg text-[#797979]">
+                                                    {{ $user->preference->room_temperature }}</h1>
+                                            </div>
+                                        </div>
+                                        <div class="workStyle flex items-center gap-4 w-full pl-1.5">
+                                            <div class="img w-[30%]">
+                                                <div
+                                                    class="w-18 h-18 flex items-center justify-center rounded-full bg-[rgba(248,169,31,0.4)] border border-kuning">
+                                                    <ion-icon class="text-[40px] text-kuning"
+                                                        name="briefcase-outline"></ion-icon>
+                                                </div>
+                                            </div>
+                                            <div class="info text-[16px] w-[70%]">
+                                                <h1 class="font-popReg font-bold pb-1">Tipe bekerja/belajar</h1>
+                                                <h1 class="font-popReg text-[#797979]">
+                                                    {{ $user->preference->work_type }}</h1>
+                                            </div>
+                                        </div>
+                                        <div class="noise flex items-center gap-4 w-full pl-1.5">
+                                            <div class="img w-[30%]">
+                                                <div
+                                                    class="w-18 h-18 flex items-center justify-center rounded-full bg-[rgba(214,35,0,0.4)] border border-merah">
+                                                    <ion-icon class="text-[40px] text-merah"
+                                                        name="ear-outline"></ion-icon>
+                                                </div>
+                                            </div>
+                                            <div class="info text-[16px] w-[70%]">
+                                                <h1 class="font-popReg font-bold pb-3">Toleransi Kebisingan</h1>
+                                                <div class="flex gap-0.5">
+                                                    <!-- Bar 1 (active) -->
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        <div
+                                                            class="w-7 h-3 {{ $i <= $user->preference->noise_tolerance ? 'bg-[#88A825]' : 'bg-[rgba(98,98,98,0.28)]' }} rounded-full">
+                                                        </div>
+                                                    @endfor
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="gender flex items-center gap-4 w-full pl-1.5">
+                                            <div class="img w-[30%]">
+                                                <div
+                                                    class="w-18 h-18 flex items-center justify-center rounded-full bg-[rgba(255,95,31,0.4)] border border-oranye">
+                                                    <ion-icon class="text-[40px] text-oranye"
+                                                        name="male-female-outline"></ion-icon>
+                                                </div>
+                                            </div>
+                                            <div class="info text-[16px] w-[70%]">
+                                                <h1 class="font-popReg font-bold pb-1">Genre Musik</h1>
+                                                <h1 class="font-popReg text-[#797979]">
+                                                    {{ $user->preference->music_genre }} Music</h1>
+                                            </div>
+                                        </div>
+
+
+
                                     </div>
                                 </div>
 
-                                <div class="mt-2 text-center">
-                                    <button class="text-white underline">View Detail</button>
-                                </div>
                             </div>
-                            <!-- Back Card -->
-                            <div class="bg-[#570807] flip-card-back text-white rounded-xl shadow-lg p-4 min-w-[200px] w-64 relative border-4 border-[#f8A91f] backface-visibility-hidden min-h-[480px]">
-                                <div class="absolute top-0 right-0 -mt-4 -mr-4 bg-[#f8A91f] rounded px-1 text-black font-bold text-sm"></div>
-                                <div class="overflow-y-auto [scrollbar-width:none]  [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden h-[450px] pr-2">
-                                    <h1>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatum inventore reiciendis ipsam sequi fugiat omnis aliquid at autem id iste. Animi architecto repellendus assumenda, quas modi quia! Dicta, fugiat distinctio.</h1>
-                                    <div class="mt-3 text-center border-t-2 border-gray-300 pt-4">
-                                        <h1>Pertanyaan 1</h1>
-                                        <div class="w-full bg-gray-300 rounded-full h-6 overflow-hidden mt-4">
-                                            <div class="bg-[#f8a91f] h-6 text-white text-sm font-bold text-center" style="width: 70%">
-                                                70%
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mt-3 text-center border-t-2 border-gray-300 pt-4">
-                                        <h1>Pertanyaan 2</h1>
-                                        <div class="w-full bg-gray-300 rounded-full h-6 overflow-hidden mt-4">
-                                            <div class="bg-[#f8a91f] h-6 text-white text-sm font-bold text-center" style="width: 70%">
-                                                70%
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mt-3 text-center border-t-2 border-gray-300 pt-4">
-                                        <h1>Pertanyaan 3</h1>
-                                        <div class="w-full bg-gray-300 rounded-full h-6 overflow-hidden mt-4">
-                                            <div class="bg-[#f8a91f] h-6 text-white text-sm font-bold text-center" style="width: 70%">
-                                                70%
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mt-3 text-center border-t-2 border-gray-300 pt-4">
-                                        <h1>Pertanyaan 4</h1>
-                                        <div class="w-full bg-gray-300 rounded-full h-6 overflow-hidden mt-4">
-                                            <div class="bg-[#f8a91f] h-6 text-white text-sm font-bold text-center" style="width: 70%">
-                                                70%
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mt-3 text-center border-t-2 border-gray-300 pt-4">
-                                        <h1>Pertanyaan 5</h1>
-                                        <div class="w-full bg-gray-300 rounded-full h-6 overflow-hidden mt-4">
-                                            <div class="bg-[#f8a91f] h-6 text-white text-sm font-bold text-center" style="width: 70%">
-                                                70%
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mt-3 text-center border-t-2 border-gray-300 pt-4">
-                                        <h1>Pertanyaan 6</h1>
-                                        <div class="w-full bg-gray-300 rounded-full h-6 overflow-hidden mt-4">
-                                            <div class="bg-[#f8a91f] h-6 text-white text-sm font-bold text-center" style="width: 70%">
-                                                70%
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mt-3 text-center border-t-2 border-gray-300 pt-4">
-                                        <h1>Pertanyaan 7</h1>
-                                        <div class="w-full bg-gray-300 rounded-full h-6 overflow-hidden mt-4">
-                                            <div class="bg-[#f8a91f] h-6 text-white text-sm font-bold text-center" style="width: 70%">
-                                                70%
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mt-3 text-center border-t-2 border-gray-300 pt-4">
-                                        <h1>Pertanyaan 8</h1>
-                                        <div class="w-full bg-gray-300 rounded-full h-6 overflow-hidden mt-4">
-                                            <div class="bg-[#f8a91f] h-6 text-white text-sm font-bold text-center" style="width: 70%">
-                                                70%
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mt-3 text-center border-t-2 border-gray-300 pt-4">
-                                        <h1>Pertanyaan 9</h1>
-                                        <div class="w-full bg-gray-300 rounded-full h-6 overflow-hidden mt-4">
-                                            <div class="bg-[#f8a91f] h-6 text-white text-sm font-bold text-center" style="width: 70%">
-                                                70%
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mt-3 text-center border-t-2 border-gray-300 pt-4">
-                                        <h1>Pertanyaan 10</h1>
-                                        <div class="w-full bg-gray-300 rounded-full h-6 overflow-hidden mt-4">
-                                            <div class="bg-[#f8a91f] h-6 text-white text-sm font-bold text-center" style="width: 70%">
-                                                70%
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+
+                            {{-- Back Side --}}
+
                         </div>
                     </div>
                 @endforeach
-                
-                <!-- Join Buddies Box -->
-                <div class="bg-[#601010] text-white rounded-xl shadow-lg p-4 min-w-[200px] w-64 min-h-[480px] flex flex-col border-4 border-yellow-400">
-                    <div class="bg-white rounded-lg mb-2 text-5xl mx-auto min-w-[200px] h-70 flex items-center justify-center">👥</div>
-                    <button class="bg-white text-[#601010] font-bold py-2 rounded-full mt-15">Join Buddies</button>
+            @endif
+
+            @if ($userCount < $home->first()->max_pax)
+                <div class="joincard">
+
+
+                    <input type="hidden" id="homestay_id" name="homestay_id" value="{{ $home->first()->fsq_id }}">
+                    <input type="hidden" id="wlid" name="wlid" value="{{ $wlid }}">
+                    @auth
+                        <button type="button" id="popupAgree"
+                            class="bg-[#601010] text-white rounded-3xl shadow-[3px_4px_6px_rgba(0,0,0,0.3)] p-4 w-[300px] min-h-[480px] flex flex-col justify-center border-4 border-yellow-400 items-center cursor-pointer hover:scale-105 transition">
+                            <div
+                                class="bg-white rounded-lg mb-2 text-5xl mx-auto min-w-[200px] h-70 flex items-center justify-center">
+                                <img src="{{ asset('assets/invite.png') }}" alt="" class="w-24 h-28">
+                            </div>
+                            <div class="bg-white text-[#601010] font-bold rounded-2xl mt-15 py-4 w-[85%] text-center">
+                                Gabung
+                                Buddies</div>
+                        </button>
+                    @else
+                        <a href="{{ route('login') }}"
+                            class="bg-[#601010] text-white rounded-3xl shadow-[3px_4px_6px_rgba(0,0,0,0.3)] p-4 w-[300px] min-h-[480px] flex flex-col justify-center border-4 border-yellow-400 items-center cursor-pointer hover:scale-105 transition">
+                            <div
+                                class="bg-white rounded-lg mb-2 text-5xl mx-auto min-w-[200px] h-70 flex items-center justify-center">
+                                <img src="{{ asset('assets/invite.png') }}" alt="" class="w-24 h-28">
+                            </div>
+                            <div class="bg-white text-[#601010] font-bold rounded-2xl mt-15 py-4 w-[85%] text-center">Login
+                            </div>
+                        </a>
+
+                    @endauth
+
+
+
+                </div>
+            @endif
+
+        </div>
+        @if ($userCount == $home->first()->max_pax && $hasCurrentUser == true)
+            <div class="w-full flex justify-center">
+                <div
+                    class="cursor-pointer shadow-md border-3 border-putih bg-[#88A825] py-4 rounded-2xl flex items-center justify-center gap-2 w-[30%] hover:scale-[1.03] duration-100 transition-all">
+                    <div class="title text-white font-popReg font-semibold text-xl">
+                        Join Grup WA Buddies
+                    </div>
+                    <div class="image">
+                        <img class="w-8 h-8" src="{{ asset('assets/wa.png') }}" alt="">
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
     </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            document.querySelectorAll(".flip-card").forEach(card => {
-                card.addEventListener("click", () => {
-                    card.classList.toggle("flipped");
-                });
-            });
-        });
-    </script>   
-
-</body>
-</html>
+</div>

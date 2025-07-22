@@ -27,7 +27,7 @@
     }
 </style>
 
-<span class="flex items-end">
+<span class="flex items-end mt-1">
     @for ($i = 0; $i < 5; $i++)
         @php
             $fill = min(max($rating - $i, 0), 1) * 100;

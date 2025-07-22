@@ -13,8 +13,9 @@ class profileController extends Controller
         $data = Auth::user();
         // dd($data);
         $loadPreference = session('loadPreference', false);
+        $loadHistory = session('loadHistory', false);
 
-        return view('profile', compact('data', 'loadPreference'));
+        return view('profile', compact('data', 'loadPreference', 'loadHistory'));
     }
 
 
@@ -30,7 +31,7 @@ class profileController extends Controller
         // dd($request->all());
         // dd($id);
         $validate = $request->validate([
-            'desc' => 'required|string',
+            // 'desc' => 'required|string',
             'email' => 'required|email',
             'name' => 'required|string',
             'phone_num' => 'required|string',
