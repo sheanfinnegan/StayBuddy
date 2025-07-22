@@ -10,11 +10,24 @@
     // dd($home->first()->max_pax, $userCount);
 
 @endphp
+<style>
+    #conLuar::-webkit-scrollbar {
+        display: none;
+    }
+
+    #conLuar {
+        -ms-overflow-style: none;
+        /* IE & Edge */
+        scrollbar-width: none;
+        /* Firefox */
+    }
+</style>
 <div id="popupCon"
     class="min-h-screen position-absolute top-0 z-30 bg-[rgba(0,0,0,0.4)] flex items-center justify-center">
-    <div id="conLuar" class="bg-[#f4f3e6] px-6 py-10  rounded-3xl w-[95%] max-w-screen-xl relative h-[70%]">
+    <div id="conLuar"
+        class="bg-[#f4f3e6] px-6 py-10 rounded-2xl md:rounded-3xl w-[95%] max-w-screen-xl relative md:h-[80%] h-[650px] overflow-auto md:overflow-hidden ">
 
-        <button id="closePopup" class="closeBtn top-8 right-10 text-xl absolute cursor-pointer">
+        <button id="closePopup" class="closeBtn md:top-8 md:right-10 right-4 text-xl absolute cursor-pointer">
             <img src="{{ asset('assets/closeX.png') }}" alt="" class="w-10 h-10">
             {{-- <i class="fas fa-times"></i> --}}
         </button>
@@ -24,17 +37,18 @@
                 <h2 class="wlTitle text-2xl font-bold text-center">
                     {{ $userCount != 0 ? 'BUDDIES DETAIL' : 'BUAT BUDDIES' }}</h2>
             </div>
-            <div id="uCount" class="text-xl absolute top-2 right-10 font-bold text-[#FF5F1F]">
+            <div id="uCount" class="text-xl absolute md:top-2 top-3 right-10 font-bold text-[#FF5F1F]">
                 {{ $userCount . '/' . $home->first()->max_pax }}</div>
 
         </div>
 
         <!-- Card List -->
-        <div id="listCardUser" class="flex overflow-x-auto space-x-4 py-4 justify-center">
+        <div id="listCardUser"
+            class="flex md:flex-row flex-col overflow-x-auto  space-x-4 py-4 justify-center items-center h-fit">
             <!-- Card 1-->
             @if (!$users->isEmpty())
                 @foreach ($users as $index => $user)
-                    <div class="group perspective w-[300px] h-[480px] cursor-pointer">
+                    <div class="group perspective w-[300px] h-[480px] cursor-pointer md:mb-0 mb-7">
                         <div class="relative w-full h-full transition-transform duration-700 transform-style-preserve-3d group-[.flipped]:rotate-y-180"
                             id="cardInner">
                             {{-- Front Side --}}
@@ -349,9 +363,9 @@
         @if ($userCount == $home->first()->max_pax && $hasCurrentUser == true)
             <div class="w-full flex justify-center">
                 <div
-                    class="cursor-pointer shadow-md border-3 border-putih bg-[#88A825] py-4 rounded-2xl flex items-center justify-center gap-2 w-[30%] hover:scale-[1.03] duration-100 transition-all">
+                    class="cursor-pointer shadow-md border-3 border-putih bg-[#88A825] py-4 rounded-2xl flex items-center justify-center gap-2 md:w-[30%] w-[80%] hover:scale-[1.03] duration-100 transition-all">
                     <div class="title text-white font-popReg font-semibold text-xl">
-                        Join Grup WA Buddies
+                        Gabung Grup WA Buddies
                     </div>
                     <div class="image">
                         <img class="w-8 h-8" src="{{ asset('assets/wa.png') }}" alt="">

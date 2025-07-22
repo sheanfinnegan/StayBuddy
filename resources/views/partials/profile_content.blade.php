@@ -1,9 +1,22 @@
-<div class="title pt-10 pb-6.5 ms-12">
+<style>
+    @media (max-width: 768px) {
+        .title {
+            justify-content: space-between;
+            /* default: kiri */
+            align-items: center;
+            /* default: atas */
+        }
+    }
+</style>
+<div class="title pt-10 pb-6.5 ms-12 flex  md:gap-0 md:block">
     <h1 class="font-popReg font-semibold text-3xl text-[#333333]">Profil</h1>
+    <div id="dropDownNav" class="md:hidden">
+        <img class="w-10 h-8 mr-12" src="{{ asset('assets/Dropdown.png') }}" alt="">
+    </div>
 </div>
 <div class="line h-[1px] bg-maroon"></div>
-<div class="content ms-12 mt-10 flex gap-12">
-    <div class="left w-[50%] flex flex-col gap-5">
+<div class="content ms-12 md:mr-0 mr-12 mt-10 md:flex-row md:gap-12 flex flex-col-reverse gap-5">
+    <div class="left md:w-[50%] w-full flex flex-col gap-5">
 
         <div class="rating">
             <h3 class="text-xl text-black font-popReg font-semibold pb-1">Rating Anda</h3>
@@ -47,15 +60,15 @@
             </select>
         </div>
         <div id="edit-button"
-            class="edit px-5 py-2 bg-[#5E2D2D] font-popReg text-white rounded-sm w-[120px] text-center mt-4 cursor-pointer">
+            class="edit md:mb-0 mb-8 px-5 py-2 bg-[#5E2D2D] font-popReg text-white rounded-sm w-[120px] text-center mt-4 cursor-pointer">
             Ubah
         </div>
         <div id="save-button"
-            class="edit px-5 py-2 bg-[#88A825] font-popReg text-white rounded-sm w-[120px] text-center mt-3 mb-8 hidden cursor-pointer">
+            class="edit px-5 py-2 md:mb-0 mb-8 bg-[#88A825] font-popReg text-white rounded-sm w-[120px] text-center mt-3 hidden cursor-pointer">
             Simpan
         </div>
     </div>
-    <div class="right w-[50%] flex flex-col gap-7">
+    <div class="right md:w-[50%] w-full flex flex-col gap-7">
         <div class="photo w-full flex flex-col">
             <h4 class="text-xl text-black font-popReg font-semibold mb-2">Foto Profil</h4>
             <div class="w-full flex justify-center">
@@ -92,6 +105,7 @@
 
 <script>
     $('#edit-button').on('click', function() {
+        console.log('hello')
         // Sembunyikan text
         $('#email-display, #name-display, #phone-display, #bod-display, #gender-display, #occupation-display')
             .hide();

@@ -285,9 +285,9 @@ window.initPopupEvents = function () {
 
                     const joinWA = `<div class="w-full flex justify-center">
                 <div
-                    class="cursor-pointer shadow-md border-3 border-putih bg-[#88A825] py-4 rounded-2xl flex items-center justify-center gap-2 w-[30%] hover:scale-[1.03] duration-100 transition-all">
+                    class="cursor-pointer shadow-md border-3 border-putih bg-[#88A825] py-4 rounded-2xl flex items-center justify-center gap-2 md:w-[30%] w-[80%] hover:scale-[1.03] duration-100 transition-all">
                     <div class="title text-white font-popReg font-semibold text-xl">
-                        Join Grup WA Buddies
+                        Gabung Grup WA Buddies
                     </div>
                     <div class="image">
                         <img class="w-8 h-8" src="/assets/wa.png" alt="">

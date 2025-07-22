@@ -1,15 +1,25 @@
-{{-- @php
-    dd($waitingLists);
-@endphp --}}
+<style>
+    @media (max-width: 768px) {
+        .title {
+            justify-content: space-between;
+            /* default: kiri */
+            align-items: center;
+            /* default: atas */
+        }
+    }
+</style>
 
 <div id="popupDetail" class="fixed inset-0 position-absolute top-0 z-[100] hidden">
     {{-- @include('popup.rmdetailpopup') --}}
 </div>
-<div class="title pt-10 pb-6.5 ms-12">
+<div class="title pt-10 pb-6.5 ms-12 flex  md:gap-0 md:block">
     <h1 class="font-popReg font-semibold text-3xl text-[#333333]">Transaksi Anda</h1>
+    <div id="dropDownNav" class="md:hidden">
+        <img class="w-10 h-8 mr-12" src="{{ asset('assets/Dropdown.png') }}" alt="">
+    </div>
 </div>
 <div class="line h-[1px] bg-maroon"></div>
-<div class="content ms-12 mt-10 flex gap-12">
+<div class="content ms-12 mr-12 md:mr-0 mt-10 flex gap-12">
     {{-- nanti diganti for each --}}
     {{-- @for ($i = 0; $i < 4; $i++) --}}
     @if ($waitingLists->isEmpty())
@@ -41,10 +51,10 @@
                 // dd($waitingList->paymentForUser->payment_id);
             @endphp
             <div
-                class="flex border-2 border-maroon rounded-xl p-4 shadow-xl bg-white hover:scale-[1.02] transition-all duration-100 cursor-pointer w-[60%]">
+                class="flex md:flex-row flex-col border-2 border-maroon rounded-xl p-4 shadow-xl bg-white hover:scale-[1.02] transition-all duration-100 cursor-pointer md:w-[60%] w-full">
                 {{-- <div class="flex border-2 border-maroon rounded-xl p-4 shadow-md bg-white"> --}}
                 <img src="{{ asset($waitingList->homestay->main_images) }}" alt="Kos"
-                    class="w-50 h-full  object-cover rounded-md mr-4 mt-1">
+                    class="md:w-50 md:mb-0 mb-3 w-full h-full  object-cover rounded-md mr-4 mt-1">
                 <div class="flex flex-col w-full h-full gap-y-1">
                     <h2 class="text-xl font-semibold text-[#651B1B]">{{ $waitingList->homestay->name }}</h2>
                     <p class="text-sm text-gray-600 flex items-center ">
@@ -53,7 +63,7 @@
                     </p>
                     <p class="text-sm text-gray-600">{{ $waitingList->homestay->alamat }}</p>
 
-                    <div class="flex flex-col h-[70%] w-full mt-3 gap-y-3">
+                    <div class="flex flex-col h-[70%] w-full mt-3 md:gap-y-3 gap-y-5">
                         <div class="flex flex-row w-full">
                             <div class="flex flex-col w-[50%]">
                                 <p class="text-sm text-gray-600">Awal Sewa</p>

@@ -1,13 +1,31 @@
-<div class="sidebar fixed top-0 left-0 w-[414px] bg-cream px-5 py-8  min-h-screen flex flex-col justify-between">
+<style>
+    @media (max-width: 768px) {
+        .profile {
+            justify-content: space-between;
+            /* default: kiri */
+            align-items: center;
+            /* default: atas */
+        }
+
+        .sidebar {
+            display: none;
+        }
+    }
+</style>
+<div
+    class="sidebar fixed top-0 left-0 w-full md:w-[414px] bg-krem px-5 py-8 h-screen md:min-h-screen flex flex-col justify-between z-[30]">
     <div class="h-[630px] flex flex-col justify-between">
         <div>
             <div class="profile flex flex-row items-center gap-5">
-                <div class="img">
+                <div class="img hidden md:block">
                     <img class="rounded-full w-[80px] h-[80px]" src="{{ asset('assets/profile.png') }}" alt="">
                 </div>
-                <div class="username flex flex-col gap-2">
+                <div class="username flex flex-col gap-2 ml-5 md:ml-0">
                     <p class="text-[17px] text-abu">Selamat datang kembali</p>
                     <h2 class="text-2xl font-popB text-maroon">{{ Auth::user()->name }}</h2>
+                </div>
+                <div class="close md:hidden">
+                    <img class="w-8 h-8 mr-4" src="{{ asset('assets/closeX.png') }}" alt="">
                 </div>
             </div>
             <div class="upperNav ms-1 mt-15 font-popReg ">
@@ -61,8 +79,8 @@
 
 
 
-    <div class="bottomNav ms-1">
-        <div class="h-[1px] w-full bg-maroon mb-8"></div>
+    <div class="bottomNav ms-1 mt-4">
+        <div class="h-[1px] w-full bg-maroon md:mb-8 mb-4 mt-3 md:mt-0"></div>
         <form method="POST" action="{{ route('logout') }}" class="signOut ps-5 py-4 hover:bg-putih rounded-xl">
             @csrf
             <button type="submit " class="flex gap-4 items-center   font-popReg hover:cursor-pointer">

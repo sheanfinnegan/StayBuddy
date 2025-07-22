@@ -1,41 +1,41 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layouts.app')
+@section('title', 'Pertanyaan Preferensi | Stay Buddy')
 
-<head>
-    <meta charset="UTF-8">
-    <title>Pertanyaan</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
+@section('content')
 
-<body class="font-sans antialiased bg-gray-100">
     @php
         $progressBarQuestions = [3, 7, 8, 11]; // ID yang butuh value integer
     @endphp
 
-    <div class="flex min-h-screen bg-[#f1f1e8]">
+    <div class="flex min-h-screen bg-[#f1f1e8] md:flex-row flex-col">
         <!-- Left Panel -->
-        <div class="w-1/2 bg-[#e9cfc4] p-12 flex flex-col justify-center">
+
+
+        <div class="w-full md:w-1/2 bg-[#e9cfc4] p-12 flex flex-col justify-center">
+            <div class=" justify-center mb-5 md:hidden flex ">
+                <img src="{{ asset('assets/LogoStayBuddy.png') }}" alt="Stay Buddy" class="w-48 h-24">
+            </div>
             <p class="text-sm font-semibold">Pertanyaan {{ $question->id }}/12</p>
-            <h1 class="text-4xl font-extrabold mt-2 text-[#4a0000]">{{ $question->question_text }}</h1>
+            <h1 class="text-2xl md:text-4xl font-extrabold mt-2 text-[#4a0000]">{{ $question->question_text }}</h1>
             <p class="text-sm mt-4">Pilih satu jawaban</p>
         </div>
 
         <!-- Right Panel -->
-        <div class="w-1/2 p-12 flex flex-col h-screen">
+        <div class="w-full md:w-1/2 p-12 flex flex-col h-fit md:h-screen">
             <!-- Logo -->
-            <div class="flex justify-center mb-4">
+            <div class=" justify-center mb-4 md:flex hidden">
                 <img src="{{ asset('assets/LogoShadow.png') }}" alt="Stay Buddy" class="w-[500px] mt-3">
             </div>
 
             <!-- Form -->
             <form method="POST"
                 action="{{ $question->id < 12 ? route('questionnaire.next') : route('questionnaire.submit') }}"
-                class="flex flex-col flex-grow">
+                class="flex flex-col md:flex-grow">
                 @csrf
                 <input type="hidden" name="question_id" value="{{ $question->id }}">
 
                 <!-- Opsi -->
-                <div class="flex flex-col flex-grow justify-center space-y-4">
+                <div class="flex flex-col md:flex-grow justify-center space-y-4">
                     @foreach (['option_1', 'option_2', 'option_3', 'option_4', 'option_5'] as $opt)
                         @if (!empty($question->$opt))
                             <div>
@@ -80,6 +80,4 @@
             </form>
         </div>
     </div>
-</body>
-
-</html>
+@endsection

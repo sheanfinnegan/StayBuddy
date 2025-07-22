@@ -1,3 +1,16 @@
+<style>
+    #payCon::-webkit-scrollbar {
+        display: none;
+    }
+
+    #payCon {
+        -ms-overflow-style: none;
+        /* IE & Edge */
+        scrollbar-width: none;
+        /* Firefox */
+    }
+</style>
+
 <div id="popupCon"
     class="min-h-screen position-absolute top-0 z-30 bg-[rgba(0,0,0,0.4)] flex items-center justify-center">
     @php
@@ -28,16 +41,18 @@
     <form action="{{ route('payment.confirm') }}" method="POST" class="flex justify-center items-center">
         {{-- <form action="{{ route('payment.confirm') }}" method="POST"> --}}
         @csrf
-        <div class="w-[80%] h-[700px] bg-[#f4f3e6] justify-center rounded-2xl">
+        <div class="md:w-[80%] w-[95%] h-[700px] bg-[#f4f3e6] justify-center rounded-2xl">
 
-            <div class="flex flex-col justify-center items-center relative">
-                <div class="flex flex-row px-10 pt-10 pb-2 gap-4 w-[100%] h-[45%]">
-                    <button id="closePopup" class="closeBtn top-18 right-18 text-xl absolute cursor-pointer z-[20]">
-                        <img src="{{ asset('assets/closeX.png') }}" alt="" class="w-10 h-10">
+            <div class="flex flex-col justify-center items-center relative ">
+                <div id="payCon"
+                    class="flex flex-col md:flex-row px-10 pt-5 md:pt-10 pb-2 gap-4 w-[100%] md:h-[45%] overflow-auto h-[630px] md:mt-0 mt-7">
+                    <button id="closePopup"
+                        class="closeBtn top-5 right-5 md:top-18 md:right-18 text-xl absolute cursor-pointer z-[20]">
+                        <img src="{{ asset('assets/closeX.png') }}" alt="" class="w-6 h-6">
                         {{-- <i class="fas fa-times"></i> --}}
                     </button>
 
-                    <div class="flex flex-col">
+                    <div class="flex flex-col ">
                         <div class="w-[100%] h-[100%] pt-0 pb-3">
                             <div class="inline-flex w-[100%] gap-4">
                                 <button id="method-MasterCard"
@@ -102,15 +117,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class=" bg-white mt-2 h-[170px] rounded-xl w-[100%] ">
-                            <div class="h-[100%] w-[100%] bg-grey rounded-xl border-2 flex flex-row p-4 gap-5">
+                        <div class=" bg-white mt-2 md:h-[170px] h-fit rounded-xl w-[100%] ">
+                            <div
+                                class="h-[100%] w-[100%] bg-grey rounded-xl border-2 flex md:flex-row flex-col p-4 gap-5">
                                 {{-- Gambar --}}
-                                <div class="h-[100%] w-[30%] flex flex-row justify-center items-center">
+                                <div class="h-[100%] md:w-[30%] w-full flex flex-row justify-center items-center">
                                     <img id="mainImage" src="{{ asset($data->waitingList->homestay->main_images) }}"
                                         alt="Deskripsi Gambar" class="object-cover w-100 h-full">
                                 </div>
 
-                                <div class="h-[100%] w-[70%] flex justify-center flex-row p-2 gap-2">
+                                <div class="h-[100%] md:w-[70%] w-full flex justify-center flex-row p-2 gap-2">
                                     <div class="flex flex-col w-[60%]">
 
                                         <h1 class="text-[#570807] text-xl font-bold">
@@ -146,23 +162,26 @@
                             <div
                                 class="bg-white w-[100%] h-full p-7 rounded-xl mx-auto flex flex-col items-center justify-between ">
                                 <div class="flex justify-start items-center w-[100%]">
-                                    <h1 class="text-[#570807] text-4xl mb-4 font-bold text-left">Detail Transaksi</h1>
+                                    <h1 class="text-[#570807] text-2xl md:text-4xl mb-4 font-bold text-left">Detail
+                                        Transaksi</h1>
                                 </div>
                                 <div
                                     class="outline-2 w-[100%] h-fit mt-6 rounded-xl outline-[#570807] shadow-xl p-4 justify-center text-center items-center flex-row my-auto">
                                     <div class="flex justify-between items-center w-[100%] mt-2 mb-2">
-                                        <h1 class="text-[#570807] text-xl font-bold italic">Transaksi</h1>
-                                        <h1 class="text-[#570807] text-xl font-bold">Rp.
+                                        <h1 class="text-[#570807] md:text-xl text-md font-bold italic">Transaksi</h1>
+                                        <h1 class="text-[#570807] md:text-xl text-md font-bold">Rp.
                                             {{ $data->waitingList->homestay->price }}.000.000</h1>
                                     </div>
                                     <div class="flex justify-between items-center w-[100%] mt-2 mb-2">
-                                        <h1 class="text-[#570807] text-xl font-bold italic">Diskon</h1>
-                                        <h1 class="text-[#570807] text-xl font-bold">Rp.
+                                        <h1 class="text-[#570807] md:text-xl text-md font-bold italic">Diskon</h1>
+                                        <h1 class="text-[#570807] md:text-xl text-md font-bold">Rp.
                                             {{ number_format($discount, 0, ',', '.') }}</h1>
                                     </div>
                                     <div class="flex justify-between items-center w-[100%] mt-2 mb-2">
-                                        <h1 class="text-[#570807] text-xl font-bold italic">Bayar per orang</h1>
-                                        <h1 class="text-[#940f0d] text-xl font-bold">{{ $data->price }}.000.000 per
+                                        <h1 class="text-[#570807] md:text-xl text-md font-bold italic">Bayar per orang
+                                        </h1>
+                                        <h1 class="text-[#940f0d] md:text-xl text-md font-bold">
+                                            {{ $data->price }}.000.000 per
                                             pax
                                         </h1>
                                     </div>
@@ -170,7 +189,7 @@
 
 
 
-                                <div class="flex justify-between items-center w-[100%] mt-6 mb-2">
+                                <div class="flex justify-between items-center w-[100%] md:mt-6 mt-3 md:mb-2 mb-5">
                                     <h1 class="text-[#570807] text-xl font-bold italic">Total</h1>
                                     <h1 class="text-[#570807] text-xl font-bold">Rp.
                                         {{ $data->price }}.000.000</h1>
@@ -178,9 +197,9 @@
                                 <input type="hidden" name="payment_id" value="{{ $data->payment_id }}">
                                 <input type="hidden" name="payment_method" id="selectedMethod" value="MasterCard">
                                 <button type="submit"
-                                    class="w-[65%] h-[10%] mt-10 justify-center items-center flex mx-auto hover:scale-[1.02] transition-all duration-100">
+                                    class="md:w-[65%] w-[80%] h-[10%] mt-10 justify-center items-center flex mx-auto hover:scale-[1.02] transition-all duration-100">
                                     <h1
-                                        class=" bg-[#ff5f1f] text-putih text-xl font-bold w-[100%] py-5 rounded-4xl shadow-md cursor-pointer hover:sc">
+                                        class=" bg-[#ff5f1f] text-putih md:text-xl text-[17px] font-bold w-[100%] py-5 rounded-4xl shadow-md cursor-pointer hover:sc">
                                         Konfirmasi Pembayaran</h1>
                                 </button>
                             </div>

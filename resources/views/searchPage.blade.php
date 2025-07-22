@@ -3,13 +3,22 @@
 @section('title', 'Search Page')
 
 @section('content')
+    <style>
+        @media (max-width: 768px) {
+            #profIcon {
+                bottom: 2rem;
+                /* default: atas */
+            }
+
+        }
+    </style>
     <div id="popupDetail" class="fixed inset-0 position-absolute top-0 z-[100] hidden">
         {{-- @include('popup.rmdetailpopup') --}}
     </div>
     <div class="z-[0]" id="map"></div>
-    <div class="fullnav w-fit pr-7 flex justify-between absolute top-0 left-0 z-10">
+    <div class="fullnav md:w-fit w-full md:pr-7 flex justify-between absolute top-0 left-0 z-10">
         <div
-            class="nav w-fit pl-5 pt-8 pb-7 flex flex-col gap-4 items-center bg-putih shadow-[2px_3px_5px_rgba(0,0,0,0.25)] h-fit ">
+            class="nav md:w-fit w-full pl-5 pt-8 pb-7 flex flex-col gap-4 items-center bg-putih shadow-[2px_3px_5px_rgba(0,0,0,0.25)] h-fit ">
             <div class="flex flex-row gap-2 items-center">
                 <div class="img-container w-[30%]">
                     <img class="w-[280px]" src="{{ asset('assets/LogoStayBuddy.png') }}" alt="logo">
@@ -52,7 +61,7 @@
         </div>
 
     </div>
-    <div class="absolute top-0 right-0 z-[10] flex items-center mr-10 mt-7">
+    <div id="profIcon" class="absolute md:top-0 md:right-0 right-5 z-[10] flex items-center md:mr-10 mt-7">
         @auth
             <a href="{{ route('profile') }}">
                 <img src="{{ asset('assets/iconProfile1.png') }}" alt=""
@@ -67,20 +76,30 @@
     </div>
     {{-- <div class="bg-[url('/public/assets/maps.png')] w-full h-[100vh]  bg-cover bg-center"></div> --}}
 
-    <div class="homeResult opacity-0 absolute top-[150px] left-7 z-50">
-        <h1 class="text-maroon font-popReg text-[25px] pl-1">Hasil</h1>
-        <div class="homeList w-[450px] flex flex-col gap-3 mt-[7px] h-[570px] overflow-y-auto pl-1 pt-[2px] custom-scroll">
+    <div class="homeResult hidden absolute md:top-[150px] top-[150px] left-5 md:left-7 z-50 w-fit md:mr-0 mr-5">
+        <div class="flex gap-3">
+            <h1 class="text-maroon font-popReg text-[25px] pl-1">Hasil</h1>
+            <button id="clsDetail"
+                class="cursor-pointer bg-maroon hidden md:hidden px-3 text-white font-popReg rounded-2xl text-sm hover:scale-[1.01] duration-100 transition-all">Tutup
+                detail</button>
+
+        </div>
+
+        <div
+            class="homeList md:w-[450px] w-[fit] flex flex-col gap-3 mt-[7px] md:h-[570px] h-[500px] overflow-y-auto pl-1 pt-[2px] custom-scroll overflow-auto">
 
 
         </div>
     </div>
 
-    <div class="homeDetail absolute top-0 left-[37%] h-full hidden items-center w-fit z-20 duration-200">
+    <div
+        class="homeDetail absolute md:top-0 top-[195px] md:left-[37%] left-6 md:h-full h-fit hidden items-center w-fit md:z-20 z-[50] duration-200">
 
 
     </div>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('js/popup.js') }}"></script>
 
 
@@ -89,6 +108,9 @@
         let result = document.querySelector('.homeResult');
         let dropDown = document.querySelector('.dropDown');
 
+        // Tambahkan zoom control hanya jika layar besar
+
+
         const map = L.map('map', {
             center: [-6.2, 106.8166], // Jakarta
             zoom: 15, // Lebih dekat
@@ -96,9 +118,45 @@
             scrollWheelZoom: true,
             touchZoom: 'center' // Dua jari pinch zoom lebih halus
         });
-        L.control.zoom({
+
+        let zoomCtrl = L.control.zoom({
             position: 'bottomright'
-        }).addTo(map);
+        });
+        let zoomAdded = false; // Flag manual
+
+        function updateZoomControl() {
+            if (window.innerWidth < 768) {
+                if (zoomAdded) {
+                    map.removeControl(zoomCtrl);
+                    zoomAdded = false;
+                }
+            } else {
+                if (!zoomAdded) {
+                    zoomCtrl.addTo(map);
+                    zoomAdded = true;
+                }
+            }
+        }
+
+        function updateClsDetail() {
+            const clsDetail = document.getElementById('clsDetail');
+            let homeDetail = document.querySelector('.homeDetail');
+            if (window.innerWidth < 768) {
+                if (homeDetail.innerHTML == '') {
+                    clsDetail.classList.add('hidden')
+                } else {
+                    clsDetail.classList.remove('hidden')
+                }
+            } else {
+                clsDetail.classList.remove('hidden')
+            }
+
+        }
+
+        // updateZoomControl();
+        // updateClsDetail();
+        window.addEventListener('resize', updateZoomControl);
+        window.addEventListener('resize', updateClsDetail);
 
         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
             maxZoom: 19,
@@ -232,7 +290,7 @@
 
                                 return `
         <div data-fsq-id="${item.fsq_id}"
-            class="homeCardContainer flex flex-col gap-5 bg-white border-2 border-maroon rounded-xl px-4 py-5 shadow-[2px_3px_5px_rgba(0,0,0,0.25)] hover:scale-[1.005] duration-100 hover:cursor-pointer">
+            class="homeCardContainer flex flex-col gap-5 bg-white border-2 md:w-fit max-w-[700px] border-maroon rounded-xl px-4 py-5 shadow-[2px_3px_5px_rgba(0,0,0,0.25)] hover:scale-[1.005] duration-100 hover:cursor-pointer">
             <div class="homeCard flex flex-col gap-2 items-center">
                 <div class="homeInfo1 flex gap-[7px] items-center">
                     <div class="homeTitle w-[65%]">
@@ -276,8 +334,8 @@
                             if (nav.classList.contains('h-fit')) {
                                 nav.classList.add('h-screen');
                                 nav.classList.remove('h-fit');
-                                result.classList.remove('opacity-0');
-                                result.classList.add('opacity-100');
+                                result.classList.remove('hidden');
+                                // result.classList.add('opacity-100');
                                 dropDown.src = "{{ asset('assets/Dropup.png') }}";
                             }
 
@@ -352,11 +410,6 @@
                                 // Render hasil
                                 renderHomesClick(resultsContainer, filtered);
                             }
-
-
-
-
-
                         });
 
 
@@ -469,7 +522,7 @@
 
                                 return `
         <div data-fsq-id="${item.details.fsq_id}"
-            class="homeCardContainer flex flex-col gap-5 bg-white border-2 border-maroon rounded-xl px-4 py-5 shadow-[2px_3px_5px_rgba(0,0,0,0.25)] hover:scale-[1.005] duration-100 hover:cursor-pointer">
+            class="homeCardContainer md:w-fit max-w-[700px] flex flex-col gap-5 bg-white border-2 border-maroon rounded-xl px-4 py-5 shadow-[2px_3px_5px_rgba(0,0,0,0.25)] hover:scale-[1.005] duration-100 hover:cursor-pointer">
             <div class="homeCard flex flex-col gap-2 items-center">
                 <div class="homeInfo1 flex gap-[7px] items-center">
                     <div class="homeTitle w-[65%]">
@@ -520,9 +573,12 @@
 
                             if (nav.classList.contains('h-fit')) {
                                 nav.classList.add('h-screen');
+
+
+
                                 nav.classList.remove('h-fit');
-                                result.classList.remove('opacity-0');
-                                result.classList.add('opacity-100');
+                                result.classList.remove('hidden');
+                                // result.classList.add('opacity-100');
                                 dropDown.src = "{{ asset('assets/Dropup.png') }}";
                             }
 
@@ -800,12 +856,19 @@
 
         function renderHomeDetail(home) {
             // console.log(home);
+            let homeDetail = document.querySelector('.homeDetail');
+            if (window.innerWidth < 768) {
+                const clsBtn = document.getElementById('clsDetail');
+                clsBtn.classList.remove('hidden');
+                clsBtn.addEventListener('click', () => {
+                    homeDetail.innerHTML = '';
+                    clsBtn.classList.add('hidden');
+                })
+            }
+
+
             const id = home.id;
 
-
-
-
-            let homeDetail = document.querySelector('.homeDetail');
             console.log(home);
             let starRating = window.renderStarRating(home.homeDetails.details.rating);
             homeDetail.classList.remove('hidden');
@@ -832,8 +895,8 @@
             // const assetPath = "{{ asset('assets/homeTest.png') }}";
             homeDetail.innerHTML = `
             <div
-            class="homeDetailCard bg-white border-2 border-maroon rounded-xl px-8    py-3 shadow-[3px_6px_5px_rgba(0,0,0,0.25)] w-[350px] h-[700px]">
-            <div class="maxCon w-full h-[650px] mt-1 overflow-auto custom-scroll">
+            class="homeDetailCard bg-white border-2 border-maroon rounded-xl px-8    py-3 shadow-[3px_6px_5px_rgba(0,0,0,0.25)] md:w-[350px] w-full md:h-[700px] h-[570px] md:mr-0 mr-5">
+            <div class="maxCon w-full md:h-[650px] h-[530px] mt-1 overflow-auto custom-scroll">
                 <div class="w-full max-w-xl mx-auto mb-2">
                     <!-- Main Image -->
                     <img id="mainImage" class="w-full h-[160px] object-cover" src="${home.photos?.[0]?.url || mainImage}"
@@ -842,9 +905,9 @@
                     <!-- Thumbnail Images -->
                     <div class="flex justify-start mt-1 gap-1">
                         ${photos.map((photo, index) => `
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <img class="thumb w-[53px] h-10 object-cover cursor-pointer ${index === 0 ? 'opacity-100 border-1 border-yellow-400' : 'opacity-50'}"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        src="${photo}" alt="">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                `).join('')}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <img class="thumb w-[53px] h-10 object-cover cursor-pointer ${index === 0 ? 'opacity-100 border-1 border-yellow-400' : 'opacity-50'}"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                src="${photo}" alt="">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        `).join('')}
                        
                     </div>
                     
@@ -939,10 +1002,45 @@
 
         }
 
+        function renderReview(home) {
+            if (home.homeDetails.details.reviews.length == 0) {
+                return `<p class="text-[20px] font-bold text-black text-center mt-5">No Reviews Yet</p>`;
+            }
+            let reviewsHTML = '';
+            let reviews = home.homeDetails.details.reviews;
+            if (typeof reviews === 'string') {
+                try {
+                    reviews = JSON.parse(reviews);
+                } catch (e) {
+                    reviews = []; // fallback kalau JSON invalid
+                }
+            }
+
+            reviews.forEach(review => {
+                const name = review.name || "Anonymous";
+                const rating = review.rating || "-";
+                const comment = review.comment || "";
+                reviewsHTML += `
+            <div class="rev flex gap-2 items-center mt-2 w-full py-1">
+                <div class="img">
+                    <ion-icon class="text-[30px]" name="person-circle-outline"></ion-icon>
+                </div>
+
+                <div class="info flex flex-col text-[12px]">
+                    <div class="upperRev flex gap-1 font-nunitoBold">
+                        <p class="Username">${name}</p>
+                        <p>-</p>
+                        <p>${rating}</p>
+                    </div>
+                    <p class="text-[12px]">${comment}</p>
+                </div>
+            </div>
+        `;
+            });
+            return reviewsHTML;
 
 
-        // function renderHomes()
-
+        }
 
 
         async function renderTab(tab, tabContent, tabs, home) {
@@ -1110,26 +1208,26 @@
                             popup.classList.remove('hidden');
                             const popUpagree = `<div id="popupConAgree"
         class="w-full min-h-screen absolute top-0 z-[100] bg-[rgba(0,0,0,0.4)] flex items-center justify-center">
-        <div class="bg-[#f4f3e6] px-6 pb-7 pt-7  rounded-3xl w-[95%] max-w-screen-xl relative h-[70%]">
+        <div class="bg-[#f4f3e6] px-6 pb-7 pt-7  rounded-3xl w-[95%] max-w-screen-xl relative  md:h-[70%] h-[720px]">
 
             <button id="closePopupAgree" class="closeBtn top-8 right-10 text-xl absolute cursor-pointer">
                 <img src="/assets/closeX.png" alt="" class="w-10 h-10">
                 {{-- <i class="fas fa-times"></i> --}}
             </button>
             <!-- Header -->
-            <div class=" w-[80%] relative flex gap-50 pb-5">
+            <div class=" w-[80%] relative flex md:gap-50 gap-5 pb-5">
                 <div class="img">
-                    <img class="w-30 h-15" src="/assets/LogoShadow.png" alt="">
+                    <img class="md:w-30 w-36 h-15" src="/assets/LogoShadow.png" alt="">
                 </div>
                 <div class="flex justify-center items-center  text-white px-6 py-2">
-                    <h2 class="wlTitle text-4xl font-bold text-center text-maroon">Syarat dan Ketentuan Pengguna</h2>
+                    <h2 class="wlTitle md:text-4xl text-2xl font-bold text-center text-maroon">Syarat dan Ketentuan Pengguna</h2>
                 </div>
 
             </div>
 
             <!-- Card List -->
             <div id="listCardUser"
-                class="flex overflow-x-auto space-x-4 py-4 justify-center bg-white h-[500px] rounded-2xl">
+                class="flex overflow-x-auto space-x-4 py-4 justify-center bg-white md:h-[500px] h-[380px] rounded-2xl">
                 <div class="w-full px-6 py-4 overflow-y-auto text-justify" style="max-height: 480px;">
                     <h2 class="text-xl font-bold text-center mb-4">Syarat dan Ketentuan Program Stay Buddy</h2>
 
@@ -1182,7 +1280,7 @@
 
             <div class="checkb py-4 flex items-center gap-3">
                 <input type="checkbox" name="agree" id="agree" class="scale-[1.2]">
-                <label for="agree" class="font-popReg">Saya telah membaca dan menyetujui ketentuan yang berlaku</label>
+                <label for="agree" class="font-popReg text-sm md:text-md">Saya telah membaca dan menyetujui ketentuan yang berlaku</label>
                 <p id="errorLog" class="text-merah"></p>   
             </div>
             <div class="w-full text-center">
@@ -1199,8 +1297,6 @@
                             
                             
                             `
-
-
 
                             const popupAgree = document.getElementById('popupAgree');
                             if (popupAgree) {
@@ -1274,26 +1370,26 @@
                             popup.classList.remove('hidden');
                             const popUpagree = `<div id="popupConAgree"
         class="w-full min-h-screen absolute top-0 z-[100] bg-[rgba(0,0,0,0.4)] flex items-center justify-center">
-        <div class="bg-[#f4f3e6] px-6 pb-7 pt-7  rounded-3xl w-[95%] max-w-screen-xl relative h-[70%]">
+        <div class="bg-[#f4f3e6] px-6 pb-7 pt-7  rounded-3xl w-[95%] max-w-screen-xl relative md:h-[70%] h-[720px]">
 
             <button id="closePopupAgree" class="closeBtn top-8 right-10 text-xl absolute cursor-pointer">
                 <img src="/assets/closeX.png" alt="" class="w-10 h-10">
                 {{-- <i class="fas fa-times"></i> --}}
             </button>
             <!-- Header -->
-            <div class=" w-[80%] relative flex gap-50 pb-5">
+            <div class=" w-[80%] relative flex md:gap-50 gap-5 pb-5">
                 <div class="img">
-                    <img class="w-30 h-15" src="/assets/LogoShadow.png" alt="">
+                    <img class="md:w-30 w-36 h-15" src="/assets/LogoShadow.png" alt="">
                 </div>
-                <div class="flex justify-center items-center  text-white px-6 py-2">
-                    <h2 class="wlTitle text-4xl font-bold text-center text-maroon">Syarat dan Ketentuan Pengguna</h2>
+                <div class="flex justify-center items-center  text-white md:px-6 py-2">
+                    <h2 class="wlTitle md:text-4xl text-2xl font-bold text-center text-maroon">Syarat dan Ketentuan Pengguna</h2>
                 </div>
 
             </div>
 
             <!-- Card List -->
             <div id="listCardUser"
-                class="flex overflow-x-auto space-x-4 py-4 justify-center bg-white h-[500px] rounded-2xl">
+                class="flex overflow-x-auto space-x-4 py-4 justify-center bg-white md:h-[500px] h-[380px] rounded-2xl">
                 <div class="w-full px-6 py-4 overflow-y-auto text-justify" style="max-height: 480px;">
                     <h2 class="text-xl font-bold text-center mb-4">Syarat dan Ketentuan Program Stay Buddy</h2>
 
@@ -1346,7 +1442,7 @@
 
             <div class="checkb py-4 flex items-center gap-3">
                 <input type="checkbox" name="agree" id="agree" class="scale-[1.2]">
-                <label for="agree" class="font-popReg">Saya telah membaca dan menyetujui ketentuan yang berlaku</label>
+                <label for="agree" class="font-popReg text-sm md:text-md">Saya telah membaca dan menyetujui ketentuan yang berlaku</label>
                 <p id="errorLog" class="text-merah"></p>   
             </div>
             <div class="w-full text-center">
@@ -1439,45 +1535,6 @@
 
 
 
-            function renderReview(home) {
-                if (home.homeDetails.details.reviews.length == 0) {
-                    return `<p class="text-[20px] font-bold text-black text-center mt-5">No Reviews Yet</p>`;
-                }
-                let reviewsHTML = '';
-                let reviews = home.homeDetails.details.reviews;
-                if (typeof reviews === 'string') {
-                    try {
-                        reviews = JSON.parse(reviews);
-                    } catch (e) {
-                        reviews = []; // fallback kalau JSON invalid
-                    }
-                }
-
-                reviews.forEach(review => {
-                    const name = review.name || "Anonymous";
-                    const rating = review.rating || "-";
-                    const comment = review.comment || "";
-                    reviewsHTML += `
-            <div class="rev flex gap-2 items-center mt-2 w-full py-1">
-                <div class="img">
-                    <ion-icon class="text-[30px]" name="person-circle-outline"></ion-icon>
-                </div>
-
-                <div class="info flex flex-col text-[12px]">
-                    <div class="upperRev flex gap-1 font-nunitoBold">
-                        <p class="Username">${name}</p>
-                        <p>-</p>
-                        <p>${rating}</p>
-                    </div>
-                    <p class="text-[12px]">${comment}</p>
-                </div>
-            </div>
-        `;
-                });
-                return reviewsHTML;
-
-
-            }
 
 
 
@@ -1487,15 +1544,21 @@
                 // let nav = document.querySelector('nav');
                 if (nav.classList.contains('h-fit')) {
                     nav.classList.add('h-screen');
+
                     nav.classList.remove('h-fit');
-                    result.classList.remove('opacity-0');
-                    result.classList.add('opacity-100');
+                    result.classList.remove('hidden');
+                    // result.classList.add('opacity-100');
                     dropDown.src = "{{ asset('assets/Dropup.png') }}";
                 } else {
-                    result.classList.remove('opacity-100');
-                    result.classList.add('opacity-0');
+                    // result.classList.remove('opacity-100');
+                    result.classList.add('hidden');
+
                     nav.classList.remove('h-screen');
+
+
                     nav.classList.add('h-fit');
+                    let homeDetail = document.querySelector('.homeDetail');
+                    homeDetail.innerHTML = '';
 
                     dropDown.src = "{{ asset('assets/Dropdown.png') }}";
                 }

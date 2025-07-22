@@ -1,9 +1,22 @@
-<div class="title pt-10 pb-6.5 ms-12">
+<style>
+    @media (max-width: 768px) {
+        .title {
+            justify-content: space-between;
+            /* default: kiri */
+            align-items: center;
+            /* default: atas */
+        }
+    }
+</style>
+<div class="title pt-10 pb-6.5 ms-12 flex  md:gap-0 md:block">
     <h1 class="font-popReg font-semibold text-3xl text-[#333333]">Preferensi Anda</h1>
+    <div id="dropDownNav" class="md:hidden">
+        <img class="w-10 h-8 mr-12" src="{{ asset('assets/Dropdown.png') }}" alt="">
+    </div>
 </div>
 <div class="line h-[1px] bg-maroon"></div>
-<div class="content ms-12 mt-10 flex gap-[20px]">
-    <div class="left flex flex-col gap-[60px] w-[33%]">
+<div class="content ms-12 mr-12 md:mr-0 mt-10 flex md:flex-row flex-col gap-[20px]">
+    <div class="left flex flex-col gap-7 md:gap-[60px] md:w-[33%] w-full md:mb-0 mb-2">
         <div class="smoking flex items-center gap-6">
             <div class="img">
                 <div
@@ -69,7 +82,7 @@
 
     </div>
 
-    <div class="mid flex flex-col gap-[55px] w-[33%]">
+    <div class="mid flex flex-col gap-7 md:gap-[55px] md:w-[33%] w-full md:mb-0 mb-2">
         <div class="dailyRoutine flex items-center gap-6">
             <div class="img ">
                 <div
@@ -136,7 +149,7 @@
 
     </div>
 
-    <div class="right flex flex-col gap-[60px] w-[33%]">
+    <div class="right flex flex-col gap-7 md:gap-[60px] md:w-[33%] w-full md:mb-0 mb-2">
         <div class="petFriendly flex items-center gap-6">
             <div class="img">
                 <div
@@ -194,9 +207,9 @@
         </div>
     </div>
 </div>
-<div class="editCon w-full flex justify-center mt-14">
+<div class="editCon w-full flex justify-center md:mt-14 md:mb-0">
     <a href="{{ route('questionnaire.show', 1) }}"
-        class="edit px-5 py-2 bg-[#5E2D2D] font-popReg text-white rounded-sm w-[120px] text-center">
+        class="mb-7 mt-7 md:mb-0 edit px-5 py-2 bg-[#5E2D2D] font-popReg text-white rounded-sm w-[120px] text-center">
         <button>Ubah</button>
     </a>
 </div>

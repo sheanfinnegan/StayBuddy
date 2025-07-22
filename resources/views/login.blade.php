@@ -13,7 +13,7 @@
             }
         }
     </style>
-    <div class="flex min-h-screen justify-center bg-[#f4f3e6]">
+    <div class="flex min-h-screen justify-center bg-[#f4f3e6] ">
         <div id="log" class="flex-col w-screen flex md:flex-row">
             {{-- Left Side: Form --}}
             <div class="w-[55%] bg-[#f4f3e6] hidden items-center justify-center relative md:flex">

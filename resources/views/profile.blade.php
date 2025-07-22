@@ -3,9 +3,9 @@
 @section('title', 'Profile')
 
 @section('content')
-    <div class="outerContainer w-full flex">
+    <div class="outerContainer w-full md:flex">
         @include('components.sidebar')
-        <div id="main-content" class="ml-[414px] w-[72%]">
+        <div id="main-content" class="md:ml-[414px] md:w-[72%]">
             @include('partials.profile_content')
         </div>
 
@@ -15,6 +15,14 @@
     <script src="{{ asset('js/popup.js') }}"></script>
 
     <script>
+        $(window).on('resize', function() {
+            if (window.innerWidth <= 768) {
+                $('.sidebar').hide(); // Sembunyikan sidebar di layar kecil
+            } else {
+                $('.sidebar').show(); // Tampilkan sidebar di layar besar
+            }
+        });
+
         let shouldLoadPreference = @json($loadPreference);
         let shouldLoadHistory = @json($loadHistory);
 
@@ -52,11 +60,16 @@
                 success: function(response) {
 
                     $('#main-content').html(response);
+                    $('#dropDownNav').on('click', function() {
+                        $('.sidebar').slideToggle(300);
+                    });
+                    $('.close').on('click', function() {
+                        if ($('.sidebar').is(':visible')) {
+                            $('.sidebar').slideUp(300);
+                        }
+                    });
                     const popup = document.getElementById("popupDetail");
                     const allPayNowButtons = document.querySelectorAll('.pay-now');
-
-
-
                     console.log(allPayNowButtons);
 
                     allPayNowButtons.forEach(button => {
@@ -160,6 +173,9 @@
 
 
         $('#load-profile').on('click', function() {
+            if ($('.sidebar').is(':visible') && window.innerWidth < 768) {
+                $('.sidebar').slideToggle(300);
+            }
             if (!$(this).hasClass('active-bar')) {
                 $('#load-preference').removeClass('active-bar');
                 $('#load-profile').addClass('active-bar');
@@ -172,6 +188,9 @@
         });
 
         $('#load-preference').on('click', function() {
+            if ($('.sidebar').is(':visible') && window.innerWidth < 768) {
+                $('.sidebar').slideToggle(300);
+            }
             if (!$(this).hasClass('active-bar')) {
                 $('#load-preference').addClass('active-bar');
                 $('#load-profile').removeClass('active-bar');
@@ -185,6 +204,9 @@
         });
 
         $('#load-history').on('click', function() {
+            if ($('.sidebar').is(':visible') && window.innerWidth < 768) {
+                $('.sidebar').slideToggle(300);
+            }
             if (!$(this).hasClass('active-bar')) {
                 $('#load-preference').removeClass('active-bar');
                 $('#load-profile').removeClass('active-bar');
