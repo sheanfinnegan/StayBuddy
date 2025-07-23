@@ -6,8 +6,8 @@
                     <img class="rounded-full w-[80px] h-[80px]" src="{{ asset('assets/profile.png') }}" alt="">
                 </div>
                 <div class="username flex flex-col gap-2">
-                    <p class="text-[17px] text-abu">Welcome back!</p>
-                    <h2 class="text-2xl font-popB text-maroon">Eric Finnegan</h2>
+                    <p class="text-[17px] text-abu">Selamat datang kembali</p>
+                    <h2 class="text-2xl font-popB text-maroon">{{ Auth::user()->name }}</h2>
                 </div>
             </div>
             <div class="upperNav ms-1 mt-15 font-popReg ">
@@ -16,7 +16,7 @@
                         class="profileDetail flex items-center justify-between active-bar hover:bg-putih ps-5 py-0.5 rounded-xl hover:cursor-pointer">
                         <div class="flex gap-4 items-center">
                             <ion-icon class="text-abu text-[27px] font-bold" name="person-outline"></ion-icon>
-                            <p class="text-[18px] font-semibold">Profile</p>
+                            <p id="prof" class="text-[18px] ">Profil</p>
                         </div>
 
                         <img class="w-[60px]" src="{{ asset('assets/iconNext.png') }}" alt="">
@@ -26,7 +26,7 @@
                         class="preferences flex items-center justify-between ps-5 py-0.5 rounded-xl hover:bg-putih hover:cursor-pointer">
                         <div class="flex gap-3 items-center">
                             <ion-icon class="text-abu text-[35px] font-bold" name="cog-outline"></ion-icon>
-                            <p class="text-[18px] ">Your Preferences</p>
+                            <p id="pref" class="text-[18px] ">Preferensi</p>
                         </div>
 
                         <img class="w-[60px]" src="{{ asset('assets/iconNext.png') }}" alt="">
@@ -36,7 +36,7 @@
                         class="history flex items-center justify-between ps-5 py-0.5 rounded-xl hover:bg-putih hover:cursor-pointer">
                         <div class="flex gap-4 items-center">
                             <ion-icon class="text-abu text-[30px] font-bold" name="arrow-undo-outline"></ion-icon>
-                            <p class="text-[18px]">History</p>
+                            <p id="his" class="text-[18px]">Transaksi</p>
                         </div>
 
                         <img class="w-[60px]" src="{{ asset('assets/iconNext.png') }}" alt="">

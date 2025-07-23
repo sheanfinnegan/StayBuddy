@@ -67,14 +67,14 @@
                 <div class="flex justify-center mt-8 space-x-4">
                     @if ($question->id > 1)
                         <a href="{{ route('questionnaire.show', ['id' => $question->id - 1]) }}"
-                            class="px-6 py-2 border border-red-900 text-red-900 rounded-md">Previous</a>
+                            class="px-6 py-2 border border-red-900 text-red-900 rounded-md">Mundur</a>
                     @endif
                     @if ($question->id < 12)
                         <!-- Kalau belum pertanyaan terakhir -->
-                        <button type="submit" class="px-6 py-2 bg-red-900 text-white rounded-md">Next →</button>
+                        <button type="submit" class="px-6 py-2 bg-red-900 text-white rounded-md">Lanjut →</button>
                     @else
                         <!-- Kalau sudah pertanyaan terakhir -->
-                        <button type="submit" class="px-6 py-2 bg-[#88A825] text-white rounded-md">Submit</button>
+                        <button type="submit" class="px-6 py-2 bg-[#88A825] text-white rounded-md">Kirim</button>
                     @endif
                 </div>
             </form>

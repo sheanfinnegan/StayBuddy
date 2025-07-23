@@ -9,14 +9,14 @@
             <div style="background: #FF5F1F;
 background: linear-gradient(170deg,rgba(255, 95, 31, 1) 30%, rgba(245, 234, 202, 1) 81%);"
                 class="w-[47%] p-10 pt-20 pl-15 rounded-tr-[150px] rounded-br-[150px]">
-                <h2 class="text-putih text-6xl font-popB mb-10 fw-bold text-shadow-lg">Register</h2>
+                <h2 class="text-putih text-6xl font-popB mb-10 fw-bold text-shadow-lg">Daftar</h2>
 
                 <form method="POST" action="{{ route('register') }}" class="space-y-4">
                     @csrf
                     <div class="container w-full flex flex-col gap-5">
                         <div class="form-1 w-full flex gap-10">
                             <div class="flex flex-col gap-2">
-                                <label class="text-putih text-md font-semibold">First Name</label>
+                                <label class="text-putih text-md font-semibold">Nama depan</label>
                                 <input type="text" name="first_name"
                                     class="w-full px-4 py-2 rounded-full bg-maroon text-putih shadow-sm focus:outline-none border border-[#f4f3e6]"
                                     placeholder="Type here...">
@@ -25,7 +25,7 @@ background: linear-gradient(170deg,rgba(255, 95, 31, 1) 30%, rgba(245, 234, 202,
                                 @enderror
                             </div>
                             <div class="flex flex-col gap-2">
-                                <label class="text-putih text-md font-semibold">Last Name</label>
+                                <label class="text-putih text-md font-semibold">Nama belakang</label>
                                 <input type="text" name="last_name"
                                     class="w-full px-4 py-2 rounded-full bg-maroon text-putih shadow-md focus:outline-none border border-[#f4f3e6]"
                                     placeholder="Type here...">
@@ -45,7 +45,7 @@ background: linear-gradient(170deg,rgba(255, 95, 31, 1) 30%, rgba(245, 234, 202,
                                 @enderror
                             </div>
                             <div class="flex flex-col gap-2">
-                                <label class="text-putih text-md font-semibold">Phone Number</label>
+                                <label class="text-putih text-md font-semibold">Nomor Telepon</label>
                                 <input type="test" name="phone_number"
                                     class="w-full px-4 py-2 rounded-full bg-maroon text-putih shadow-md focus:outline-none border border-[#f4f3e6]"
                                     placeholder="Type here...">
@@ -55,21 +55,21 @@ background: linear-gradient(170deg,rgba(255, 95, 31, 1) 30%, rgba(245, 234, 202,
                             </div>
                         </div>
                         <div class="form-3 w-full flex gap-10">
-                            <div class="flex flex-col gap-2">
-                                <label class="text-putih text-md font-semibold">Occupation</label>
+                            <div class="flex flex-col gap-2 w-[214px]">
+                                <label class="text-putih text-md font-semibold">Pekerjaan</label>
                                 <select name="occupation"
                                     class="w-full px-4 py-2 rounded-full bg-maroon text-putih shadow-md focus:outline-none border border-[#f4f3e6]">
-                                    <option value="">Select your occupation</option>
-                                    <option value="Student">Student</option>
-                                    <option value="Worker">Worker</option>
-                                    <option value="Businessman">Businessman</option>
+                                    <option value="">Pilih pekerjaan</option>
+                                    <option value="Student">Pelajar</option>
+                                    <option value="Worker">Pekerja</option>
+                                    <option value="Businessman">Pebisnis</option>
                                 </select>
                                 @error('occupation')
                                     <div class="text-red-500 text-sm">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="flex flex-col gap-2 w-[214px]">
-                                <label class="text-putih text-md font-semibold">Birth of Date</label>
+                                <label class="text-putih text-md font-semibold">Tanggal lahir</label>
                                 <input type="date" name="date"
                                     class="ipt-date w-[100%] px-4 py-2 rounded-full bg-maroon text-putih shadow-md focus:outline-none border border-[#f4f3e6]"
                                     placeholder="Type here...">
@@ -89,7 +89,7 @@ background: linear-gradient(170deg,rgba(255, 95, 31, 1) 30%, rgba(245, 234, 202,
                                 @enderror
                             </div>
                             <div class="flex flex-col gap-2">
-                                <label class="text-putih text-md font-semibold">Confirm Password</label>
+                                <label class="text-putih text-md font-semibold">Konfirmasi Password</label>
                                 <input type="password" name="password_confirmation"
                                     class="w-full px-4 py-2 rounded-full bg-maroon text-putih shadow-md focus:outline-none border border-[#f4f3e6]"
                                     placeholder="Type here...">
@@ -99,15 +99,15 @@ background: linear-gradient(170deg,rgba(255, 95, 31, 1) 30%, rgba(245, 234, 202,
                     </div>
 
                     <div class="mt-6">
-                        <label class="text-putih text-md font-semibold">Gender</label>
+                        <label class="text-putih text-md font-semibold">Jenis Kelamin</label>
                         <div class="flex space-x-4 mt-1 text-maroon text-sm ">
                             <div class="gender-1 flex justify-center items-center gap-1 text-[15px]">
                                 <input type="radio" name="gender" value="male">
-                                <label>Male</label>
+                                <label>Laki-laki</label>
                             </div>
                             <div class="gender-2 flex justify-center items-center gap-1 text-[15px]">
                                 <input type="radio" name="gender" value="female">
-                                <label>Female</label>
+                                <label>Perempuan</label>
                             </div>
                         </div>
                         @error('gender')
@@ -118,12 +118,12 @@ background: linear-gradient(170deg,rgba(255, 95, 31, 1) 30%, rgba(245, 234, 202,
                     <button type="submit"
                         class="w-[85%] h-[50px] bg-putih text-maroon py-2 rounded-full font-bold shadow-md 
            hover:bg-maroon hover:text-putih transition-colors duration-300 mt-4">
-                        Register
+                        Daftar
                     </button>
 
                     <p class="text-sm mt-4 text-[#570807]">
-                        Already have account? <a href="{{ route('login') }}"
-                            class="text-oranye underline font-semibold">Sign in</a>
+                        Sudah punya akun? <a href="{{ route('login') }}" class="text-oranye underline font-semibold">Log
+                            in</a>
                     </p>
                 </form>
             </div>

@@ -1,40 +1,45 @@
 <div class="title pt-10 pb-6.5 ms-12">
-    <h1 class="font-popReg font-semibold text-3xl text-[#333333]">Profile</h1>
+    <h1 class="font-popReg font-semibold text-3xl text-[#333333]">Profil</h1>
 </div>
 <div class="line h-[1px] bg-maroon"></div>
 <div class="content ms-12 mt-10 flex gap-12">
-    <div class="left w-[50%] flex flex-col gap-7">
-        <div class="info">
-            <h2 class="text-xl font-popReg font-semibold text-black pb-1">User Information</h2>
-            <p id="desc-display" class="text-[17px] text-abu">{{ $data->desc }}</p>
-            <textarea id="desc-input" class="border p-2 w-[300px] rounded hidden">{{ $data->desc }}</textarea>
+    <div class="left w-[50%] flex flex-col gap-5">
+
+        <div class="rating">
+            <h3 class="text-xl text-black font-popReg font-semibold pb-1">Rating Anda</h3>
+            <div class="flex gap-1 items-center">
+
+                <x-star-rating-user :rating="$data->rating" />
+                <p id="rating-display" class="text-[17px] text-abu">({{ number_format($data->rating, 1) }})</p>
+            </div>
+
         </div>
         <div class="email">
-            <h3 class="text-xl text-black font-popReg font-semibold pb-1">Email address</h3>
+            <h3 class="text-xl text-black font-popReg font-semibold pb-1">Alamat Email</h3>
             <p id="email-display" class="text-[17px] text-abu">{{ $data->email }}</p>
             <input id="email-input" type="email" class="border p-2 w-[300px] rounded hidden"
                 value="{{ $data->email }}">
         </div>
         <div class="name">
-            <h3 class="text-xl text-black font-popReg font-semibold pb-1">Full Name</h3>
+            <h3 class="text-xl text-black font-popReg font-semibold pb-1">Nama Lengkap</h3>
             <p id="name-display" class="text-[17px] text-abu">{{ $data->name }}</p>
             <input id="name-input" type="text" class="border p-2 w-[300px] rounded hidden"
                 value="{{ $data->name }}">
         </div>
         <div class="phone">
-            <h3 class="text-xl text-black font-popReg font-semibold pb-1">Phone Number</h3>
+            <h3 class="text-xl text-black font-popReg font-semibold pb-1">No. Telepon</h3>
             <p id="phone-display" class="text-[17px] text-abu">{{ $data->phone_num }}</p>
             <input id="phone-input" type="text" class="border p-2 w-[300px] rounded hidden"
                 value="{{ $data->phone_num }}">
         </div>
         <div class="bod">
-            <h3 class="text-xl text-black font-popReg font-semibold pb-1">Birth of Date</h3>
+            <h3 class="text-xl text-black font-popReg font-semibold pb-1">Tanggal Lahir</h3>
             <p id="bod-display" class="text-[17px] text-abu">{{ date('d F Y', strtotime($data->bod)) }}</p>
             <input id="bod-input" type="date" class="border p-2 w-[300px] rounded hidden"
                 value="{{ $data->bod }}">
         </div>
         <div class="gender">
-            <h3 class="text-xl text-black font-popReg font-semibold pb-1">Gender</h3>
+            <h3 class="text-xl text-black font-popReg font-semibold pb-1">Jenis Kelamin</h3>
             <p id="gender-display" class="text-[17px] text-abu">{{ $data->gender }}</p>
             <select id="gender-input" class="border p-2 w-[300px] rounded hidden">
                 <option value="Male" {{ $data->gender == 'Male' ? 'selected' : '' }}>Male</option>
@@ -43,19 +48,19 @@
         </div>
         <div id="edit-button"
             class="edit px-5 py-2 bg-[#5E2D2D] font-popReg text-white rounded-sm w-[120px] text-center mt-4 cursor-pointer">
-            Edit
+            Ubah
         </div>
         <div id="save-button"
             class="edit px-5 py-2 bg-[#88A825] font-popReg text-white rounded-sm w-[120px] text-center mt-3 mb-8 hidden cursor-pointer">
-            Save
+            Simpan
         </div>
     </div>
     <div class="right w-[50%] flex flex-col gap-7">
         <div class="photo w-full flex flex-col">
-            <h4 class="text-xl text-black font-popReg font-semibold mb-2">Profile photo</h4>
+            <h4 class="text-xl text-black font-popReg font-semibold mb-2">Foto Profil</h4>
             <div class="w-full flex justify-center">
                 <div class="w-fit relative">
-                    <img class="w-[180px] h-[180px] rounded-full" src="{{ asset('assets/profile.png') }}"
+                    <img class="w-[180px] h-[180px] rounded-full" src="{{ asset($data->profile_picture) }}"
                         alt="">
                     <img class="w-[50px] h-[50px] rounded-full py-2 px-2 bg-maroon absolute right-0 bottom-0"
                         src="{{ asset('assets/OrangFix.png') }}" alt="">
@@ -65,15 +70,15 @@
             </div>
         </div>
         <div class="occupation">
-            <h4 class="text-xl text-black font-popReg font-semibold pb-1">Occupation</h4>
+            <h4 class="text-xl text-black font-popReg font-semibold pb-1">Pekerjaan</h4>
             <p id="occupation-display" class="text-[17px] text-abu">{{ $data->occupation }}</p>
             <select id="occupation-input" class="border p-2 w-[300px] rounded hidden">
-                <option value="Student" {{ $data->occupation == 'Student' ? 'selected' : '' }}>Student
+                <option value="Student" {{ $data->occupation == 'Student' ? 'selected' : '' }}>Pelajar
                 </option>
-                <option value="Worker" {{ $data->occupation == 'Worker' ? 'selected' : '' }}>Worker
+                <option value="Worker" {{ $data->occupation == 'Worker' ? 'selected' : '' }}>Pekerja
                 </option>
                 <option value="Businessman" {{ $data->occupation == 'Businessman' ? 'selected' : '' }}>
-                    Businessman</option>
+                    Pebisinis</option>
             </select>
         </div>
         <div id="notification" class="w-full flex justify-center hidden">
@@ -88,11 +93,11 @@
 <script>
     $('#edit-button').on('click', function() {
         // Sembunyikan text
-        $('#desc-display, #email-display, #name-display, #phone-display, #bod-display, #gender-display, #occupation-display')
+        $('#email-display, #name-display, #phone-display, #bod-display, #gender-display, #occupation-display')
             .hide();
 
         // Tampilkan input
-        $('#desc-input, #email-input, #name-input, #phone-input, #bod-input, #gender-input, #occupation-input')
+        $('#email-input, #name-input, #phone-input, #bod-input, #gender-input, #occupation-input')
             .removeClass('hidden');
 
         // Ganti tombol
@@ -104,7 +109,6 @@
         let userId = '{{ $data->id }}';
         console.log(userId)
 
-        let desc = $('#desc-input').val();
         let email = $('#email-input').val();
         let name = $('#name-input').val();
         let phone = $('#phone-input').val();
@@ -117,7 +121,6 @@
             type: 'POST',
             data: {
                 _token: '{{ csrf_token() }}',
-                desc: desc,
                 email: email,
                 name: name,
                 phone_num: phone,
@@ -127,7 +130,7 @@
             },
             success: function(response) {
                 // Update tampilan text
-                $('#desc-display').text(desc).show();
+                // $('#desc-display').text(desc).show();
                 $('#email-display').text(email).show();
                 $('#name-display').text(name).show();
                 $('#phone-display').text(phone).show();
@@ -143,7 +146,7 @@
                 $('#occupation-display').text(occupation).show();
 
                 // Sembunyikan input
-                $('#desc-input, #email-input, #name-input, #phone-input, #bod-input, #gender-input, #occupation-input')
+                $('#email-input, #name-input, #phone-input, #bod-input, #gender-input, #occupation-input')
                     .addClass('hidden');
 
                 // Ganti tombol

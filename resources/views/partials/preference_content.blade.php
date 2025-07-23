@@ -1,5 +1,5 @@
 <div class="title pt-10 pb-6.5 ms-12">
-    <h1 class="font-popReg font-semibold text-3xl text-[#333333]">Your Preferences</h1>
+    <h1 class="font-popReg font-semibold text-3xl text-[#333333]">Preferensi Anda</h1>
 </div>
 <div class="line h-[1px] bg-maroon"></div>
 <div class="content ms-12 mt-10 flex gap-[20px]">
@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="info text-[19px]">
-                <h1 class="font-popReg font-bold pb-1">Smoking Tolerance</h1>
+                <h1 class="font-popReg font-bold pb-1">Toleransi merokok</h1>
                 <h1 class="font-popReg text-[#797979]">{{ $preference->smoking }}</h1>
             </div>
         </div>
@@ -27,7 +27,7 @@
             </div>
             <div class="info text-[19px]">
 
-                <h1 class="font-popReg font-bold pb-1">Alcoholic Tolerance</h1>
+                <h1 class="font-popReg font-bold pb-1">Toleransi Alcoholic</h1>
                 <h1 class="font-popReg text-[#797979]">{{ $preference->alcoholic }}</h1>
 
             </div>
@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="info text-[19px]">
-                <h1 class="font-popReg font-bold pb-3">Tidiness</h1>
+                <h1 class="font-popReg font-bold pb-3">Kerapihan</h1>
                 <div class="flex gap-0.5">
                     <!-- Bar 1 (active) -->
                     @for ($i = 1; $i <= 5; $i++)
@@ -61,7 +61,7 @@
             </div>
             <div class="info text-[19px]">
 
-                <h1 class="font-popReg font-bold pb-1">Prefered Age</h1>
+                <h1 class="font-popReg font-bold pb-1">Preferensi umur</h1>
                 <h1 class="font-popReg text-[#797979]">{{ $preference->prefered_age }}</h1>
 
             </div>
@@ -79,11 +79,11 @@
                 </div>
             </div>
             <div class="info text-[19px]">
-                <h1 class="font-popReg font-bold pb-1">Daily Routine Type</h1>
+                <h1 class="font-popReg font-bold pb-1">Tipe Kegiatan Daily</h1>
                 <h1 class="font-popReg text-[#797979] text-[15px]">{{ $preference->routine_type }}</h1>
             </div>
         </div>
-        <div class="room flex items-center gap-6 mb-1.5">
+        <div class="room flex items-center gap-6">
             <div class="img">
                 <div
                     class="w-18 h-18 flex items-center justify-center rounded-full bg-[rgba(248,169,31,0.4)] border border-kuning">
@@ -91,11 +91,11 @@
                 </div>
             </div>
             <div class="info text-[19px]">
-                <h1 class="font-popReg font-bold pb-1">Room Type</h1>
-                <h1 class="font-popReg text-[#797979]">{{ $preference->room_type }}</h1>
+                <h1 class="font-popReg font-bold pb-1">Tipe kamar</h1>
+                <h1 class="font-popReg text-[#797979] text-[15px]">{{ $preference->room_type }}</h1>
             </div>
         </div>
-        <div class="socializing flex items-center gap-6 mb-1.5">
+        <div class="socializing flex items-center gap-6">
             <div class="img">
                 <div
                     class="w-18 h-18 flex items-center justify-center rounded-full bg-[rgba(214,35,0,0.4)] border border-merah">
@@ -103,7 +103,7 @@
                 </div>
             </div>
             <div class="info text-[19px]">
-                <h1 class="font-popReg font-bold pb-3">Socializing</h1>
+                <h1 class="font-popReg font-bold pb-3">Tingkat sosialisasi</h1>
                 <div class="flex gap-0.5">
                     <!-- Bar 1 (active) -->
                     @for ($i = 1; $i <= 5; $i++)
@@ -122,7 +122,7 @@
                 </div>
             </div>
             <div class="info text-[19px]">
-                <h1 class="font-popReg font-bold pb-3">Cooking Frequency</h1>
+                <h1 class="font-popReg font-bold pb-3">Frekuensi Masak</h1>
                 <div class="flex gap-0.5">
                     <!-- Bar 1 (active) -->
                     @for ($i = 1; $i <= 5; $i++)
@@ -145,7 +145,7 @@
                 </div>
             </div>
             <div class="info text-[19px]">
-                <h1 class="font-popReg font-bold pb-1">Room Temperature</h1>
+                <h1 class="font-popReg font-bold pb-1">Suhu ruangan</h1>
                 <h1 class="font-popReg text-[#797979]">{{ $preference->room_temperature }}</h1>
             </div>
         </div>
@@ -157,7 +157,7 @@
                 </div>
             </div>
             <div class="info text-[19px]">
-                <h1 class="font-popReg font-bold pb-1">Work/Study Style</h1>
+                <h1 class="font-popReg font-bold pb-1">Tipe bekerja/belajar</h1>
                 <h1 class="font-popReg text-[#797979]">{{ $preference->work_type }}</h1>
             </div>
         </div>
@@ -169,7 +169,7 @@
                 </div>
             </div>
             <div class="info text-[19px]">
-                <h1 class="font-popReg font-bold pb-3">Noise Tolerance</h1>
+                <h1 class="font-popReg font-bold pb-3">Toleransi Kebisingan</h1>
                 <div class="flex gap-0.5">
                     <!-- Bar 1 (active) -->
                     @for ($i = 1; $i <= 5; $i++)
@@ -188,7 +188,7 @@
                 </div>
             </div>
             <div class="info text-[19px]">
-                <h1 class="font-popReg font-bold pb-1">Prefered Music Genre</h1>
+                <h1 class="font-popReg font-bold pb-1">Genre Musik</h1>
                 <h1 class="font-popReg text-[#797979]">{{ $preference->music_genre }} Music</h1>
             </div>
         </div>
@@ -197,6 +197,6 @@
 <div class="editCon w-full flex justify-center mt-14">
     <a href="{{ route('questionnaire.show', 1) }}"
         class="edit px-5 py-2 bg-[#5E2D2D] font-popReg text-white rounded-sm w-[120px] text-center">
-        <button>Edit</button>
+        <button>Ubah</button>
     </a>
 </div>
