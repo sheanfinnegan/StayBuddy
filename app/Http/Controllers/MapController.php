@@ -11,23 +11,6 @@ class MapController extends Controller
     //
     public function ajaxSearch(Request $request)
 {
-    // $query = $request->query('query');
-
-    // if (!$query) {
-    //     return response()->json(['results' => []]);
-    // }
-
-    // $response = Http::withHeaders([
-    //     'Authorization' => env('FOURSQUARE_API_KEY'),
-    // ])->get('https://api.foursquare.com/v3/places/search', [
-    //     'query' => $query,
-    //     'll' => '-6.2,106.8', // Lokasi default, bisa diubah dinamis nanti
-    //     'limit' => 20
-    // ]);
-
-    // return response()->json([
-    //     'results' => $response['results'] ?? []
-    // ]);
     $query = $request->query('query');
 
     if (!$query) {

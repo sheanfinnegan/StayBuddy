@@ -65,4 +65,3 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [profileController::class, 'index'])->name('profile');
     
 });
-

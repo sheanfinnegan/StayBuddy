@@ -56,26 +56,16 @@ public function popupNew($fsq_id)
 }
 
 public function joinBuddies(Request $request) {
-    // dd($request);
-        $userId = Auth::id();// atau $request->user()->id;
-        // dd($userId);
-        
+        $userId = Auth::id();
         $homestayId = $request->homestay_id;
-        // dd($homestayId);
         $wlid = $request->wlid; 
        $user = User::with('preference')->find($userId);
-        // dd($user);
     $age = \Carbon\Carbon::parse($user->bod)->age;
-
-    // dd($user);
-
     if ($user->wlid) {
          return response()->json(['message' => 'Sudah join'], 400);
     }    
-
     
     $waitingList = null;
-    // 2. Buat entry waiting_list
     if($wlid == null) {
         $waitingList = WaitingList::create([
             'homestay_id' => $homestayId,
@@ -95,14 +85,10 @@ public function joinBuddies(Request $request) {
         $waitingList = WaitingList::find($wlid);
     }
     
-
-    // 3. Hitung price = homestay_price / max_pax
     $homestay = HomeDetail::where('fsq_id', $homestayId)->first();
     
     $price = round($homestay->price / $homestay->max_pax,2);
-    
 
-    // 4. Buat payment
     Payment::create([
         'wlid' => $waitingList->wlid,
         'price' => $price,
